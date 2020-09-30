@@ -30,7 +30,7 @@ class Product {
 
 List<Product> demoProducts = [
   Product(
-      images: ["assets/assets/snkr_01.png"],
+      images: ["assets/snkr_02.png"],
       colors: 0xFF82B1FF,
       title: 'Air-Max-270-Big-KIDS',
       price: 130,
@@ -41,7 +41,7 @@ List<Product> demoProducts = [
       productType: ProductType.UPCOMMING
   ),
   Product(
-      images: ["assets/assets/snkr_01.png"],
+      images: ["assets/snkr_01.png"],
       colors: 0xFF82B1FF,
       title: 'Air-Max-271-Big-KIDS',
       price: 130,
@@ -53,7 +53,7 @@ List<Product> demoProducts = [
 
   ),
   Product(
-      images: ["assets/assets/snkr_01.png"],
+      images: ["assets/snkr_03.png"],
       colors: 0xFF82B1FF,
       title: 'Air-Max-272-Big-KIDS',
       price: 130,

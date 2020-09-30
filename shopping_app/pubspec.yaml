@@ -39,5 +39,10 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/snkr_01.png
+    - assets/snkr_01.png
+    - assets/snkr_02.png
+    - assets/snkr_03.png
+    - assets/icon/right-arrow.png
+    - assets/icon/heart_outline.png
+    - assets/icon/heart.png
 
