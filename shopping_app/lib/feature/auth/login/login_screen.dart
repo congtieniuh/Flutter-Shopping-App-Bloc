@@ -1,11 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_app/auth/auth_service.dart';
-import 'package:shopping_app/common/app_theme.dart';
-import 'package:shopping_app/common/colors.dart';
-import 'package:shopping_app/common/strings.dart';
-import 'package:shopping_app/common/widget/appbar.dart';
-import 'package:shopping_app/feature/register/register_screen.dart';
+import 'package:shopping_app/feature/auth/register/register_screen.dart';
+import 'package:shopping_app/resources/resources.dart';
+import 'package:shopping_app/widget/appbar.dart';
+import '../auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'feature/login/login_screen.dart';
 import 'feature/product/discover/discover_screen.dart';
 
 

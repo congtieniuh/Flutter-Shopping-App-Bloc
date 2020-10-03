@@ -1,62 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/common/app_theme.dart';
-import 'package:shopping_app/common/colors.dart';
-import 'package:shopping_app/common/widget/appbar.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shopping_app/feature/product/model/category.dart';
 import 'package:shopping_app/feature/product/model/product.dart';
+import 'package:shopping_app/resources/resources.dart';
+import 'package:shopping_app/widget/app_nav_bar.dart';
+import 'package:shopping_app/widget/appbar.dart';
 
-class DiscoverScreen extends StatelessWidget {
+class DiscoverScreen extends StatefulWidget {
+  @override
+  _DiscoverScreenState createState() => _DiscoverScreenState();
+}
+
+class _DiscoverScreenState extends State<DiscoverScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(title: 'Discover'),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(height: 70, child: _buildListCategory()),
-          Flexible(
-              flex: 3,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    Container(width: 70, child: _buildListType()),
-                    Expanded(child: _buidListProduct()),
-                  ],
-                ),
-              )),
-          Flexible(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'More',
-                      style: headingText,
-                    ),
-                    IconButton(
-                        icon: Image.asset(
-                          'assets/icon/right-arrow.png',
-                        ),
-                        onPressed: () {})
-                  ],
-                ),
-              )),
-          Flexible(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: [
-                    Flexible(flex: 2, child: _buildCardBottomNew()),
-                    Flexible(flex: 2, child: _buildCardBottomNew())
-                  ],
-                ),
-              ))
-        ],
-      ),
+        appBar: CommonAppBar(title: 'Discover'),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(height: 70, child: _buildListCategory()),
+            Flexible(
+                flex: 3,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Container(width: 70, child: _buildListType()),
+                      Expanded(child: _buidListProduct()),
+                    ],
+                  ),
+                )),
+            Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'More',
+                        style: headingText,
+                      ),
+                      IconButton(
+                          icon: Image.asset(
+                            'assets/icon/right-arrow.png',
+                          ),
+                          onPressed: () {})
+                    ],
+                  ),
+                )),
+            Flexible(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      Flexible(flex: 2, child: _buildCardBottomNew()),
+                      Flexible(flex: 2, child: _buildCardBottomNew())
+                    ],
+                  ),
+                ))
+          ],
+        ),
+        bottomNavigationBar: Container(
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
+            ]),
+            child: AppNavBar()
+        )
     );
   }
 
@@ -93,9 +107,12 @@ class DiscoverScreen extends StatelessWidget {
             alignment: Alignment.topRight,
           ),
           Align(
-            child: Image.asset('assets/snkr_01.png', height: 150, width: 150,),
+            child: Image.asset(
+              'assets/snkr_01.png',
+              height: 150,
+              width: 150,
+            ),
             alignment: Alignment.center,
-
           ),
           Align(
             child: Padding(
@@ -103,14 +120,18 @@ class DiscoverScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Nike Air Max', style: TextStyle(fontWeight: FontWeight.bold),),
-                  Text('\$130.00',style: TextStyle(fontWeight: FontWeight.bold),),
-
+                  Text(
+                    'Nike Air Max',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '\$130.00',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
             alignment: Alignment.bottomCenter,
-
           )
         ],
       ),
