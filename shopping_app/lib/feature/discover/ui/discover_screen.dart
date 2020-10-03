@@ -4,7 +4,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shopping_app/feature/discover/model/category.dart';
 import 'package:shopping_app/feature/discover//model/product.dart';
 import 'package:shopping_app/resources/resources.dart';
-import 'package:shopping_app/widget/app_nav_bar.dart';
 import 'package:shopping_app/widget/appbar.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -65,12 +64,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 ))
           ],
         ),
-        bottomNavigationBar: Container(
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-            ]),
-            child: AppNavBar()
-        )
+
     );
   }
 

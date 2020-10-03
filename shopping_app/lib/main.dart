@@ -4,6 +4,7 @@ import 'package:shopping_app/feature/auth/auth_service.dart';
 import 'package:shopping_app/feature/auth/login/login_screen.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/route/router.dart';
+import 'file:///D:/flutter/flutter_project/important/shopping_app/lib/feature/home/home.dart';
 import 'feature/discover/ui/discover_screen.dart';
 
 void main() async {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: DiscoverScreen(),
+      home: HomeScreen(),
     );
   }
 }
