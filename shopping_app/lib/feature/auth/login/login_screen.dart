@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/feature/auth/register/register_screen.dart';
 import 'package:shopping_app/resources/resources.dart';
+import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import '../auth_service.dart';
 
@@ -74,6 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 print(
                     '--------------------------------------------------------------------');
                 print(result);
+
+                if (result) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, homeRoute, (r) => false);
+                } else {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text("Login failed"),
+                  ));
+                }
               },
               color: AppColors.indianRed,
               child: Text(
@@ -93,11 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextSpan(
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
-                                ));
+                            Navigator.pushNamed(context, registerRoute);
                           },
                         text: 'Register',
                         style: TextStyle(

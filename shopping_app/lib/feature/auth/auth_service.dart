@@ -29,6 +29,10 @@ class AuthService {
     }
   }
 
+  Future<bool> isSignedIn() async{
+    return  _auth.currentUser != null;
+  }
+
   Future<void> updateUserData(UserData userData) async {
     return await userCollection.doc(userData.uid).set({
       'username': userData.username,

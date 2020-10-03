@@ -1,6 +1,6 @@
 
 
-import 'package:shopping_app/feature/product/model/product.dart';
+import 'package:shopping_app/feature/discover/model/product.dart';
 
 class Category {
   List<Product> products;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:shopping_app/feature/product/model/category.dart';
-import 'package:shopping_app/feature/product/model/product.dart';
+import 'package:shopping_app/feature/discover/model/category.dart';
+import 'package:shopping_app/feature/discover//model/product.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/widget/app_nav_bar.dart';
 import 'package:shopping_app/widget/appbar.dart';
