@@ -7,6 +7,13 @@ class Category {
   String manufacturer;
 
   Category({this.products, this.manufacturer});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'products': products,
+      'manufacturer': manufacturer,
+    };
+  }
 }
 
 List<Category> categories = [
@@ -14,27 +21,7 @@ List<Category> categories = [
     products: demoProducts,
     manufacturer: 'Nike'
   ),
-  Category(
-      products: demoProducts,
-      manufacturer: 'Adidas'
-  ),
-  Category(
-      products: demoProducts,
-      manufacturer: 'Puma'
-  ),
-  Category(
-      products: demoProducts,
-      manufacturer: 'Vinagiay'
-  ),
-  Category(
-      products: demoProducts,
-      manufacturer: 'Converse'
-  ),
-    Category(
-    products: demoProducts,
-    manufacturer: 'Nike'
-  ),
-  Category(
+  Category(qqq
       products: demoProducts,
       manufacturer: 'Adidas'
   ),

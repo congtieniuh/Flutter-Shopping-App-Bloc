@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/feature/discover/bloc/discover_bloc.dart';
 import 'package:shopping_app/feature/discover/model/category.dart';
-import 'package:shopping_app/feature/discover//model/product.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/widget/appbar.dart';
+import 'package:shopping_app/widget/card_product.dart';
 
 class DiscoverScreen extends StatefulWidget {
   @override
@@ -12,59 +12,62 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CommonAppBar(title: 'Discover'),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(height: 70, child: _buildListCategory()),
-            Flexible(
-                flex: 3,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      Container(width: 70, child: _buildListType()),
-                      Expanded(child: _buidListProduct()),
-                    ],
-                  ),
-                )),
-            Flexible(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'More',
-                        style: headingText,
-                      ),
-                      IconButton(
-                          icon: Image.asset(
-                            'assets/icon/right-arrow.png',
-                          ),
-                          onPressed: () {})
-                    ],
-                  ),
-                )),
-            Flexible(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      Flexible(flex: 2, child: _buildCardBottomNew()),
-                      Flexible(flex: 2, child: _buildCardBottomNew())
-                    ],
-                  ),
-                ))
-          ],
-        ),
-
+      appBar: CommonAppBar(title: 'Discover'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(height: 70, child: _buildListCategory()),
+          Flexible(
+              flex: 3,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    Container(width: 70, child: _buildListType()),
+                    Expanded(child: _buildListProduct()),
+                  ],
+                ),
+              )),
+          Flexible(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'More',
+                      style: headingText,
+                    ),
+                    IconButton(
+                        icon: Image.asset(
+                          'assets/icon/right-arrow.png',
+                        ),
+                        onPressed: () {})
+                  ],
+                ),
+              )),
+          Flexible(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    Flexible(flex: 2, child: _buildCardBottomNew()),
+                    Flexible(flex: 2, child: _buildCardBottomNew())
+                  ],
+                ),
+              ))
+        ],
+      ),
     );
   }
 
@@ -132,78 +135,25 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     );
   }
 
-  Widget _buidListProduct() {
-    return ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: demoProducts.length,
-        itemBuilder: (context, index) {
-          var product = demoProducts[index];
-          print(product.images[0]);
-          return Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-                width: 200,
-                height: 400,
-                decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Nike',
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white,
-                            fontSize: 18),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Epic React',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 22),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text('130', style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 0,
-                bottom: 50,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                      width: 200,
-                      height: 200,
-                      child: Image.asset(
-                        '${product.images[0]}',
-                        fit: BoxFit.contain,
-                      )),
-                ),
-              ),
-              Positioned(
-                  bottom: 0,
-                  right: 30,
-                  child: IconButton(
-                      icon: Image.asset(
-                        'assets/icon/right-arrow.png',
-                        color: Colors.white,
-                      ),
-                      onPressed: () {}))
-            ],
-          );
-        });
+  Widget _buildListProduct() {
+    return BlocBuilder<DiscoverBloc, DiscoverState>(
+      builder: (context, state) {
+        var listProduct = [];
+
+        if (state is DiscoverLoadFinished) {
+          listProduct = state.products;
+        }
+
+        return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: listProduct.length,
+            itemBuilder: (context, index) {
+              var product = listProduct[index];
+              print(product.images[0]);
+              return CardProduct(product: product);
+            });
+      },
+    );
   }
 
   Widget _buildListType() {

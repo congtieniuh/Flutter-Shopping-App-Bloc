@@ -2,13 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'model/user_app.dart';
 
-class AuthService {
+class AuthBloc {
   FirebaseAuth _auth;
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("user");
 
-  AuthService() {
+  AuthBloc() {
     _auth = FirebaseAuth.instance;
+  }
+
+  Stream<String> get onAuthStateChanged {
+    return _auth.authStateChanges().map((user) => user.uid);
   }
 
   Future<bool> register(UserData userData) async {

@@ -4,7 +4,7 @@ import 'package:shopping_app/feature/auth/register/register_screen.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
-import '../auth_service.dart';
+import '../auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  AuthService _authService;
+  AuthBloc _authService;
 
   var _emailController = TextEditingController();
   var _passwordController = TextEditingController();
@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _authService = AuthService();
+    _authService = AuthBloc();
   }
 
   @override
@@ -72,10 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 var result = await _authService.signIn(
                     _emailController.text, _passwordController.text);
-                print(
-                    '--------------------------------------------------------------------');
-                print(result);
-
                 if (result) {
                   Navigator.pushNamedAndRemoveUntil(
                       context, homeRoute, (r) => false);
@@ -100,17 +96,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Don have account? ',
                       style: minorText,
                       children: [
-                    TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushNamed(context, registerRoute);
-                          },
-                        text: 'Register',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline))
-                  ])),
+                        TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushNamed(context, registerRoute);
+                              },
+                            text: 'Register',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline))
+                      ])),
             ),
             SizedBox(
               height: 50.0,
@@ -119,68 +115,73 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 30.0,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: RaisedButton(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    onPressed: () {},
-                    color: AppColors.cornflowerBlue,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.face,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          Strings.facebook,
-                          style: whiteText,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 16.0,
-                ),
-                Expanded(
-                  child: RaisedButton(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    onPressed: () {},
-                    color: AppColors.indianRed,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.face,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          Strings.google,
-                          style: whiteText,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
+            _loginWithSocicalNetwork(),
           ],
         ),
       ),
+    );
+  }
+
+
+  Widget _loginWithSocicalNetwork() {
+    return Row(
+      children: [
+        Expanded(
+          child: RaisedButton(
+            padding:
+            EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            onPressed: () {},
+            color: AppColors.cornflowerBlue,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.face,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  Strings.facebook,
+                  style: whiteText,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 16.0,
+        ),
+        Expanded(
+          child: RaisedButton(
+            padding:
+            EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            onPressed: () {},
+            color: AppColors.indianRed,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.face,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  Strings.google,
+                  style: whiteText,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

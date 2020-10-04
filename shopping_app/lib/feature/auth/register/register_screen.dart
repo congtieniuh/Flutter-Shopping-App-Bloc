@@ -3,7 +3,7 @@ import 'package:shopping_app/feature/auth/model/user_app.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/widget/appbar.dart';
 
-import '../auth_service.dart';
+import '../auth_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  AuthService _authService;
+  AuthBloc _authService;
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _authService = AuthService();
+    _authService = AuthBloc();
   }
 
   @override

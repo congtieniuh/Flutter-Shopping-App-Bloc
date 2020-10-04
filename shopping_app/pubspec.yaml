@@ -28,9 +28,11 @@ dependencies:
   firebase_auth: 0.18.0+1
   firebase_core: ^0.5.0
   cloud_firestore: 0.14.0+2
-  rxdart: 0.24.1
   flutter_icons: 1.1.0
   google_nav_bar: ^3.0.0
+  bloc: ^6.0.3
+  flutter_bloc: ^6.0.3
+  equatable: 1.2.5
 
 dev_dependencies:
   flutter_test:
