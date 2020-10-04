@@ -21,7 +21,7 @@ List<Category> categories = [
     products: demoProducts,
     manufacturer: 'Nike'
   ),
-  Category(qqq
+  Category(
       products: demoProducts,
       manufacturer: 'Adidas'
   ),
