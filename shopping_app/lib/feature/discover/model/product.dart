@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-enum ProductType { UPCOMMING, FEATURED, NEW }
+class ProductType {
+  static const UPCOMMING = 'Upcoming';
+  static const FEATURED = 'Featured';
+  static const NEW = 'New';
+
+  static List<String> values() => [UPCOMMING, FEATURED, NEW];
+}
 
 class Product {
   final int id;
@@ -9,10 +15,11 @@ class Product {
   final List<String> images;
   final int colors;
   final double price;
+  final String category;
   final bool isFavourite;
   final List<double> remainingSizeUK;
   final List<double> remainingSizeUS;
-  final ProductType productType;
+  final String productType;
 
   Product(
       {this.id,
@@ -21,6 +28,7 @@ class Product {
       this.isFavourite = false,
       this.title,
       this.price,
+      this.category,
       this.description,
       this.briefDescription,
       this.remainingSizeUK,
@@ -34,11 +42,12 @@ class Product {
       'isFavourite': isFavourite,
       'title': title,
       'price': price,
+      'category': category,
       'description': description,
       'briefDescription': briefDescription,
       'remainingSizeUK': remainingSizeUK,
       'remainingSizeUS': remainingSizeUS,
-      'productType': productType.toString(),
+      'productType': productType.toString().split('.').last,
     };
   }
 
@@ -54,6 +63,7 @@ List<Product> demoProducts = [
       colors: 0xFF82B1FF,
       title: 'Air-Max-270-Big-KIDS',
       price: 130,
+      category: 'Nike',
       description: 'description',
       briefDescription: 'briefDescription',
       remainingSizeUK: [7.5, 8, 9],
@@ -64,6 +74,7 @@ List<Product> demoProducts = [
       colors: 0xFF82B1FF,
       title: 'Air-Max-271-Big-KIDS',
       price: 130,
+      category: 'Adidas',
       description: 'description',
       briefDescription: 'briefDescription',
       remainingSizeUK: [7.5, 8, 9],
@@ -74,9 +85,12 @@ List<Product> demoProducts = [
       colors: 0xFF82B1FF,
       title: 'Air-Max-272-Big-KIDS',
       price: 130,
+      category: 'Puma',
       description: 'description',
       briefDescription: 'briefDescription',
       remainingSizeUK: [7.5, 8, 9],
       remainingSizeUS: [40, 41, 42],
       productType: ProductType.NEW),
 ];
+
+List<String> categories = ['Nike', 'Adidas', 'Puma', 'Converse'];

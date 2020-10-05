@@ -11,7 +11,7 @@ import 'colors.dart';
 
 const headingText = TextStyle(
   color: AppColors.black,
-  fontSize: 18,
+  fontSize: 24,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.bold,
 );

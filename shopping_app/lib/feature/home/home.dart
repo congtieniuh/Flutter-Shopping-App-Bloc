@@ -13,11 +13,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   PageController _pageController;
+  DiscoverScreen _discoverScreen;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+
+    _discoverScreen = DiscoverScreen();
+
   }
 
   @override
@@ -36,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() => _currentIndex = index);
             },
             children: <Widget>[
-              DiscoverScreen(),
+              _discoverScreen,
               Container(),
               Container(),
               Container(),

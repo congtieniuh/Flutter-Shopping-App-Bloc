@@ -24,7 +24,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     DiscoverEvent event,
   ) async* {
     if (event is LoadingDiscoverEvent) {
-      yield* _mapLoadDiscoverEvent();
+      yield* _mapLoadDiscoverEvent(event);
     } else if (event is DiscoverUpdatedEvent) {
       yield* _mapDiscoverUpdatedEventToState(event);
     }
@@ -36,15 +36,26 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     return super.close();
   }
 
-  Stream<DiscoverState> _mapLoadDiscoverEvent() async* {
+  Stream<DiscoverState> _mapLoadDiscoverEvent(LoadingDiscoverEvent event) async* {
     _streamSubscription =
         _discoverRepository.getListProduct().listen((products) {
-      add(DiscoverUpdatedEvent(products));
+      add(DiscoverUpdatedEvent(
+          products: products,
+          category: event.category,
+          productType: event.productType));
     });
+
   }
 
   Stream<DiscoverState> _mapDiscoverUpdatedEventToState(
       DiscoverUpdatedEvent event) async* {
-    yield DiscoverLoadFinished(products: event.products, isSuccess: true);
+    var filterList = event.products.where((element) {
+      print('-------------------> ${element.productType} - ${event.productType} & ${element.category} - ${event.category}');
+
+      return element.productType == event.productType &&
+          element.category == event.category;
+    }).toList();
+
+    yield DiscoverLoadFinished(products: filterList, isSuccess: true);
   }
 }

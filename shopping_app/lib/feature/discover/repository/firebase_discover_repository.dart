@@ -17,14 +17,23 @@ class FirebaseDiscoverRepository extends DiscoverRepository {
           colors: doc.data()['colors'],
           title: doc.data()['title'],
           price: doc.data()['price'] ,
+          category: doc.data()['category'] ,
           description: doc.data()['description'],
           briefDescription: doc.data()['briefDescription'],
           remainingSizeUK: List<double>.from(doc.data()['remainingSizeUK']),
           remainingSizeUS: List<double>.from(doc.data()['remainingSizeUS']),
-          productType: ProductType.UPCOMMING);
+          productType: doc.data()['productType']);
 
     }).toList();
 
     return result;
   }
+
+  @override
+  Future<void> addListProduct(List<Product> products) async {
+    products.forEach((element) {
+      discoverCollection.add(element.toMap());
+    });
+  }
+
 }
