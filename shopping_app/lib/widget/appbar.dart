@@ -3,16 +3,22 @@ import 'package:shopping_app/resources/app_theme.dart';
 
 class CommonAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
-
-  const CommonAppBar({Key key,@required this.title}) : super(key: key);
+  final Color color;
+  final Color textColor;
+  const CommonAppBar({Key key,@required this.title, this.color, this.textColor}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: color ?? Colors.grey[100],
       title: Text(
         title,
-        style: headingText,
+        style: TextStyle(
+          color: textColor ?? Colors.black,
+          fontSize: 24,
+          fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

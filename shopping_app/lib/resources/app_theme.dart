@@ -16,6 +16,7 @@ const headingText = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+
 const whiteText = TextStyle(
   color: AppColors.white,
   fontSize: 16,
