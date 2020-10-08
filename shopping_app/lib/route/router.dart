@@ -5,7 +5,7 @@ import 'package:shopping_app/feature/auth/register/register_screen.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/discover/ui/discover_screen.dart';
 import 'package:shopping_app/feature/home/home.dart';
-import 'package:shopping_app/feature/product_details/product_details_screen.dart';
+import 'package:shopping_app/feature/product_details/ui/product_details_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

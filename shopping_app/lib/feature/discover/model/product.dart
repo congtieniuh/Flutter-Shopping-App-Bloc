@@ -10,7 +10,7 @@ class ProductType {
 }
 
 class Product {
-  final int id;
+  final String id;
   final String title, briefDescription, description;
   final List<String> images;
   final int colors;
@@ -51,10 +51,29 @@ class Product {
     };
   }
 
+  Map<String, dynamic> toMapSql(){
+    return {
+      'product_id': id,
+      'images': images.toString(),
+      'colors': colors,
+      'isFavourite': isFavourite ? 1 : 0,
+      'title': title,
+      'price': price,
+      'category': category,
+      'description': description,
+      'briefDescription': briefDescription,
+      'remainingSizeUK': remainingSizeUK.toString(),
+      'remainingSizeUS': remainingSizeUS.toString(),
+      'productType': productType,
+    };
+  }
+
   @override
   String toString() {
     return 'Product{id: $id, title: $title, briefDescription: $briefDescription, description: $description, images: $images, colors: $colors, price: $price, isFavourite: $isFavourite, remainingSizeUK: $remainingSizeUK, remainingSizeUS: $remainingSizeUS, productType: $productType}';
   }
+
+
 }
 
 List<Product> demoProducts = [

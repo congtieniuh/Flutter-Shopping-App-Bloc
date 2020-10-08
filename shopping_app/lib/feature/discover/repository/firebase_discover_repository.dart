@@ -13,6 +13,7 @@ class FirebaseDiscoverRepository extends DiscoverRepository {
   List<Product> _productListFromSnapshot(QuerySnapshot snapshot) {
     var result = snapshot.docs.map((doc) {
       return Product(
+          id: doc.id,
           images: List<String>.from(doc.data()['images']),
           colors: doc.data()['colors'],
           title: doc.data()['title'],

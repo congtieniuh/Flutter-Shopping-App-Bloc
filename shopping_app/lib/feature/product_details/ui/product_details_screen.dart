@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
+import 'package:shopping_app/feature/product_details/bloc/product_details_bloc.dart';
 import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:shopping_app/widget/quater_circle.dart';
 import 'package:intl/intl.dart';
+
+import 'popup_desc_details.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final Product product;
@@ -18,6 +22,8 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final formatCurrency = new NumberFormat.simpleCurrency();
+  var _isSelectedSize = false;
+  var _currentIndexSize = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +69,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           color: Colors.redAccent,
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(
-                                  MediaQuery.of(context).size.width / 2))),
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 2))),
                       child: Center(
                           child: Container(
-                        margin: EdgeInsets.only(right: 40),
-                        child: Image.asset(
-                          widget.product.images[0],
-                          width: 300,
-                          fit: BoxFit.fill,
-                        ),
-                      ))),
+                            margin: EdgeInsets.only(right: 40),
+                            child: Image.asset(
+                              widget.product.images[0],
+                              width: 300,
+                              fit: BoxFit.fill,
+                            ),
+                          ))),
                 ],
               ),
               SizedBox(
@@ -133,12 +142,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
             height: 20,
           ),
-          Text(
-            'MORE DETAILS',
-            style: TextStyle(
-                color: Colors.black,
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.bold),
+          InkWell(
+            onTap: () {
+              showDialog(context: context, builder: (context) {
+                return DescriptionDetailsDialog(product: widget.product,);
+              },);
+            },
+            child: Text(
+              'MORE DETAILS',
+              style: TextStyle(
+                  color: Colors.black,
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           SizedBox(
             height: 26,
@@ -220,22 +236,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       itemCount: sizes.length,
       itemBuilder: (context, index) {
         double size = sizes[index];
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 6.0),
-          width: 100,
-          height: 50,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey[300]),
-              borderRadius: BorderRadius.all(Radius.circular(8.0))),
-          child: Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Center(
-                child: Text(
-                  "$size",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              )),
+        _isSelectedSize = _currentIndexSize == index;
+        return GestureDetector(
+          onTap: () => onSelectedSize(index, size),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 6.0),
+            width: 100,
+            height: 50,
+            decoration: BoxDecoration(
+                color: _isSelectedSize ? Colors.black : Colors.white,
+                border: Border.all(color: Colors.grey[300]),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Center(
+                  child: Text(
+                    "$size",
+                    style: TextStyle(
+                        color: _isSelectedSize ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )),
+          ),
         );
       },
     );
@@ -251,7 +273,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () {},
+            onPressed: () {
+              BlocProvider.of<ProductDetailsBloc>(context).add(
+                  AddProductToCart(widget.product)
+              );
+            },
             color: AppColors.indianRed,
             child: Text(
               'ADD TO BAG',
@@ -259,5 +285,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             )),
       ),
     );
+  }
+
+  onSelectedSize(int index, double size) {
+    setState(() {
+      _currentIndexSize = index;
+    });
   }
 }
