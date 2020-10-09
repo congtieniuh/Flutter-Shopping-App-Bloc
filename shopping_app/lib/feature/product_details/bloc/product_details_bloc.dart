@@ -29,7 +29,6 @@ class ProductDetailsBloc
   Stream<ProductDetailsState> _mapAddProductToBagToState(
       AddProductToCart event) async* {
     await _productDetailsDao.insertProductToCart(event.product);
-    await _productDetailsDao.query();
 
     yield AddProductToBagFinished(true);
   }

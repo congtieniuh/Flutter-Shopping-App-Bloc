@@ -11,4 +11,6 @@ class CartItem {
   Map<String, dynamic> toMap() {
     return {'quantity': quantity, 'product_id': product.id};
   }
+
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:shopping_app/feature/cart/ui/cart_screen.dart';
 import 'package:shopping_app/feature/discover/ui/discover_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   PageController _pageController;
   DiscoverScreen _discoverScreen;
+  CartScreen _cartScreen;
 
   @override
   void initState() {
@@ -21,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController = PageController();
 
     _discoverScreen = DiscoverScreen();
-
+    _cartScreen = CartScreen();
   }
 
   @override
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               _discoverScreen,
               Container(),
-              Container(),
+              _cartScreen,
               Container(),
             ],
           ),
@@ -69,10 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   GButton(
                     icon: Ionicons.ios_heart,
                     text: 'Favorite',
-                  ),
-                  GButton(
-                    icon: Ionicons.ios_locate,
-                    text: 'Search',
                   ),
                   GButton(
                     icon: Ionicons.ios_cart,

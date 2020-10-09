@@ -17,7 +17,6 @@ class ProductDetailsDao {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     var cartItem = CartItem(product: product, quantity: 1).toMap();
-    print('--------------> $cartItem');
     return db.insert(
       DBProvider.TABLE_CART_ITEMS,
       cartItem,
@@ -26,10 +25,10 @@ class ProductDetailsDao {
 
   }
 
-  Future<void> query() async{
+/*  Future<void> query() async{
     var result = await db.query(DBProvider.TABLE_PRODUCT);
     print('------------ $result');
     var result1 = await db.query(DBProvider.TABLE_CART_ITEMS);
     print('------------ $result1');
-  }
+  }*/
 }

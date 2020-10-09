@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/feature/auth/auth_bloc.dart';
 import 'package:shopping_app/feature/auth/login/login_screen.dart';
+import 'package:shopping_app/feature/cart/bloc/cart_bloc.dart';
 import 'package:shopping_app/feature/discover/bloc/discover_bloc.dart';
 import 'package:shopping_app/feature/product_details/bloc/product_details_bloc.dart';
 import 'package:shopping_app/route/route_constants.dart';
@@ -33,6 +34,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (context) {
               return DiscoverBloc()..add(LoadingDiscoverEvent());
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return CartBloc()..add(CartLoadingEvent());
             },
           ),
           BlocProvider(
