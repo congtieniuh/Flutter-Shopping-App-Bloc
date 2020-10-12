@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:shopping_app/feature/cart/models/cart.dart';
 import 'package:shopping_app/feature/cart/models/cart_item.dart';
 import 'package:shopping_app/feature/cart/repository/cart_repository.dart';
 import 'package:shopping_app/feature/cart/repository/cart_repository_local.dart';
+import 'package:shopping_app/feature/discover/model/product.dart';
 
 part 'cart_event.dart';
 
@@ -24,10 +26,18 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) async* {
     if(event is CartLoadingEvent){
       yield* _mapCartUpdatedEventToState(event);
+    } else if (event is ChangeQuantityCartItem){
+      yield* _mapCartChangeQuantitEventToState(event);
     }
   }
 
   Stream<CartState> _mapCartUpdatedEventToState(CartEvent event) async* {
+    var result = await _cartRepositoryLocal.getCartItems();
+    yield CartLoadFinished(result);
+  }
+
+  Stream<CartState> _mapCartChangeQuantitEventToState(ChangeQuantityCartItem event) async* {
+    await _cartRepositoryLocal.updateQuantity(event.product, event.value);
     var result = await _cartRepositoryLocal.getCartItems();
     yield CartLoadFinished(result);
   }

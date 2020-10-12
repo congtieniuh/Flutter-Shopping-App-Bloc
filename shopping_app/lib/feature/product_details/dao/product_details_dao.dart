@@ -10,19 +10,33 @@ class ProductDetailsDao {
     db = DBProvider.instance.database;
   }
 
-  Future<int> insertProductToCart(Product product) {
+  Future<int> insertProductToCart(Product product) async {
     db.insert(
       DBProvider.TABLE_PRODUCT,
       product.toMapSql(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    var cartItem = CartItem(product: product, quantity: 1).toMap();
-    return db.insert(
-      DBProvider.TABLE_CART_ITEMS,
-      cartItem,
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
 
+    var findCartItem = await db.query(DBProvider.TABLE_CART_ITEMS,
+        where: "product_id = ?", whereArgs: [product.id]);
+
+    if (findCartItem.isEmpty) {
+      var cartItem = CartItem(product: product, quantity: 1).toMap();
+
+      return db.insert(
+        DBProvider.TABLE_CART_ITEMS,
+        cartItem,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } else {
+      var currentQuantity = 0;
+      findCartItem.forEach((element) {
+        currentQuantity = element['quantity'];
+      });
+      return db.update(
+          DBProvider.TABLE_CART_ITEMS, {"quantity": currentQuantity + 1},
+          where: "product_id = ?", whereArgs: [product.id]);
+    }
   }
 
 /*  Future<void> query() async{

@@ -5,6 +5,7 @@ import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/product_details/bloc/product_details_bloc.dart';
 import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
+import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:shopping_app/widget/quater_circle.dart';
 import 'package:intl/intl.dart';
@@ -144,9 +145,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           InkWell(
             onTap: () {
-              showDialog(context: context, builder: (context) {
-                return DescriptionDetailsDialog(product: widget.product,);
-              },);
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DescriptionDetailsDialog(
+                    product: widget.product,
+                  );
+                },
+              );
             },
             child: Text(
               'MORE DETAILS',
@@ -265,25 +271,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Widget _buttonAddToBag() {
     return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        width: double.infinity,
-        child: RaisedButton(
-            padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () {
-              BlocProvider.of<ProductDetailsBloc>(context).add(
-                  AddProductToCart(widget.product)
-              );
-            },
-            color: AppColors.indianRed,
-            child: Text(
-              'ADD TO BAG',
-              style: whiteText,
-            )),
-      ),
+        alignment: Alignment.bottomCenter,
+
+        child: BlocListener(
+            bloc: BlocProvider.of<ProductDetailsBloc>(context),
+            listener: (context, state) {
+              if (state is AddProductToBagFinished) {
+                Navigator.pushNamed(context, RouteConstant.cart);
+              }
+            }, child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          width: double.infinity,
+          child: RaisedButton(
+              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
+              onPressed: () => addProductToCart(),
+              color: AppColors.indianRed,
+              child: Text(
+                'ADD TO BAG',
+                style: whiteText,
+              )),
+        ),)
     );
   }
 
@@ -291,5 +300,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     setState(() {
       _currentIndexSize = index;
     });
+  }
+
+  addProductToCart() {
+    BlocProvider.of<ProductDetailsBloc>(context)
+        .add(AddProductToCart(widget.product));
   }
 }

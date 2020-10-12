@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _emailController.text, _passwordController.text);
                 if (result) {
                   Navigator.pushNamedAndRemoveUntil(
-                      context, homeRoute, (r) => false);
+                      context, RouteConstant.homeRoute, (r) => false);
                 } else {
                   Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text("Login failed"),
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextSpan(
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.pushNamed(context, registerRoute);
+                                Navigator.pushNamed(context, RouteConstant.registerRoute);
                               },
                             text: 'Register',
                             style: TextStyle(

@@ -16,3 +16,16 @@ class CartItemUpdated extends CartEvent {
 
 class CartLoadingEvent extends CartEvent {
 }
+
+
+class ChangeQuantityCartItem extends CartEvent {
+  final Product product;
+  final int value;
+  final CartItem cartItem;
+
+  ChangeQuantityCartItem(this.product, this.value, this.cartItem);
+
+  @override
+  List<Object> get props => [product, value, cartItem];
+}
+

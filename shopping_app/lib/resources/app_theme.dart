@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
- const minorText = TextStyle(
+const minorText = TextStyle(
   color: Color.fromRGBO(128, 128, 128, 1),
   fontSize: 16,
   fontStyle: FontStyle.normal,
@@ -16,10 +16,14 @@ const headingText = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-
 const whiteText = TextStyle(
   color: AppColors.white,
   fontSize: 16,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.normal,
+);
+
+const boldTextMedium = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 20,
 );

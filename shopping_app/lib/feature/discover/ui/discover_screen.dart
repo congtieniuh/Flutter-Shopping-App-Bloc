@@ -164,7 +164,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               return CardProduct(
                 product: product,
                 onTapCard: () {
-                  Navigator.pushNamed(context, productDetailsRoute, arguments: product);
+                  Navigator.pushNamed(context, RouteConstant.productDetailsRoute, arguments: product);
                 },
               );
             });

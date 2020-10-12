@@ -3,8 +3,8 @@ import 'package:shopping_app/feature/discover/model/product.dart';
 
 class CartItem {
   final int id;
-  final int quantity;
-  final Product product;
+  int quantity;
+  Product product;
 
   CartItem({this.id, this.quantity, this.product});
 

@@ -8,10 +8,10 @@ abstract class CartState extends Equatable {
 class CartInit extends CartState {}
 
 class CartLoadFinished extends CartState {
-  final List<CartItem> cartItems;
+  final Cart cart;
 
-  CartLoadFinished(this.cartItems);
+  CartLoadFinished(this.cart);
 
   @override
-  List<Object> get props => [cartItems];
+  List<Object> get props => [cart];
 }
