@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +12,7 @@ class ProductType {
 }
 
 class Product {
-  final int id;
+  final String id;
   final String title, briefDescription, description;
   final List<String> images;
   final int colors;
@@ -48,6 +50,39 @@ class Product {
       'remainingSizeUK': remainingSizeUK,
       'remainingSizeUS': remainingSizeUS,
       'productType': productType.toString().split('.').last,
+    };
+  }
+
+  static Product fromMap(Map<String, dynamic> map) {
+    return Product(
+        id: map['product_id'],
+        images: List<String>.from(json.decode(map['images'])),
+        colors: map['colors'],
+        title: map['title'],
+        price: map['price'],
+        isFavourite: map['isFavourite'] == 1 ? true : false,
+        category: map['category'],
+        description: map['description'],
+        briefDescription: map['briefDescription'],
+        remainingSizeUK: List<double>.from(json.decode(map['remainingSizeUK'])),
+        remainingSizeUS: List<double>.from(json.decode(map['remainingSizeUS'])),
+        productType: map['productType']);
+  }
+
+  Map<String, dynamic> toMapSql() {
+    return {
+      'product_id': id,
+      'images': json.encode(images),
+      'colors': colors,
+      'isFavourite': isFavourite ? 1 : 0,
+      'title': title,
+      'price': price,
+      'category': category,
+      'description': description,
+      'briefDescription': briefDescription,
+      'remainingSizeUK': json.encode(remainingSizeUK),
+      'remainingSizeUS': json.encode(remainingSizeUS),
+      'productType': productType,
     };
   }
 
