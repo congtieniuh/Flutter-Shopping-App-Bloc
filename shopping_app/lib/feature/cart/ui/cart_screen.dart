@@ -7,6 +7,8 @@ import 'package:shopping_app/feature/cart/models/cart_item.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
+import 'package:shopping_app/route/route_constants.dart';
+import 'package:shopping_app/widget/alert_dialog.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:intl/intl.dart';
 
@@ -27,64 +29,69 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(body: BlocBuilder<CartBloc, CartState>(
-        builder: (context, state) {
-          Cart cart;
-          if (state is CartLoadFinished) {
-            cart = state.cart;
-          }
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          body: BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) {
+              Cart cart;
+              if (state is CartLoadFinished) {
+                cart = state.cart;
+              }
 
-          if (cart != null) {
-            return Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              if (cart != null) {
+                return Stack(
                   children: [
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, left: 28, right: 28, bottom: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'My Bag',
-                              style: headingText,
-                            ),
-                            Text('Total ${cart.listCartItem.length} items')
-                          ],
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 1,
-                        color: Colors.grey[300],
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                top: 16, left: 28, right: 28, bottom: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'My Bag',
+                                  style: headingText,
+                                ),
+                                Text('Total ${cart.listCartItem.length} items')
+                              ],
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 1,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: cart.listCartItem.length,
+                            itemBuilder: (context, index) {
+                              final cartItem = cart.listCartItem[index];
+                              return Container(child: _cartItem(cartItem));
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: cart.listCartItem.length,
-                        itemBuilder: (context, index) {
-                          final cartItem = cart.listCartItem[index];
-                          return Container(child: _cartItem(cartItem));
-                        },
-                      ),
-                    ),
+                    Positioned(
+                        bottom: 0,
+                        child: Container(
+                            color: Colors.white,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
+                            height: 120,
+                            child: _resultCart(cart.getTotalPrice()))),
                   ],
-                ),
-                Positioned(
-                    bottom: 0,
-                    child: Container(
-                        color: Colors.grey[50],
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        child: _resultCart(cart.getTotalPrice()))),
-              ],
-            );
-          }
+                );
+              }
 
-          return Container();
-        },
-      )),
+              return Container();
+            },
+          )),
     );
   }
 
@@ -116,20 +123,26 @@ class _CartScreenState extends State<CartScreen> {
         SizedBox(
           height: 10,
         ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: RaisedButton(
-              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0)),
-              onPressed: () {},
-              color: AppColors.indianRed,
-              child: Text(
-                'Next',
-                style: whiteText,
-              )),
-        ),
+        _nextButton()
       ],
+    );
+  }
+
+  Widget _nextButton() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: RaisedButton(
+          padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0)),
+          onPressed: () {
+            Navigator.pushNamed(context, RouteConstant.shippingMethod);
+          },
+          color: AppColors.indianRed,
+          child: Text(
+            'Next',
+            style: whiteText,
+          )),
     );
   }
 
@@ -143,7 +156,7 @@ class _CartScreenState extends State<CartScreen> {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(26)),
             ),
             Positioned(
@@ -151,9 +164,9 @@ class _CartScreenState extends State<CartScreen> {
                 bottom: 40,
                 child: Center(
                     child: Image.asset(
-                  cartItem.product.images[0],
-                  width: 140,
-                )))
+                      cartItem.product.images[0],
+                      width: 140,
+                    )))
           ],
         ),
         Padding(
@@ -184,7 +197,8 @@ class _CartScreenState extends State<CartScreen> {
                     height: 30,
                     child: OutlineButton(
                       padding: EdgeInsets.zero,
-                      onPressed: () => decreaseQuantity(cartItem.product, cartItem),
+                      onPressed: () =>
+                          decreaseQuantity(cartItem.product, cartItem),
                       child: Icon(Icons.remove),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13)),
@@ -223,7 +237,17 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   decreaseQuantity(Product product, CartItem cartItem) {
-    BlocProvider.of<CartBloc>(context)
-        .add(ChangeQuantityCartItem(product, cartItem.quantity - 1, cartItem));
+    if (cartItem.quantity <= 1) {
+      showAlertDialog(
+          context,
+          "Remove cart items?",
+          ""
+              "Are you sure to remove ${product.title} from the shopping cart",
+              () =>
+              BlocProvider.of<CartBloc>(context).add(RemoveCartItem(cartItem)));
+    } else {
+      BlocProvider.of<CartBloc>(context).add(
+          ChangeQuantityCartItem(product, cartItem.quantity - 1, cartItem));
+    }
   }
 }

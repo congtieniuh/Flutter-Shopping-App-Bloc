@@ -6,6 +6,7 @@ import 'package:shopping_app/feature/cart/ui/cart_screen.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/home/home.dart';
 import 'package:shopping_app/feature/product_details/ui/product_details_screen.dart';
+import 'package:shopping_app/feature/shipping/shipping_method_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -24,6 +25,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => RegisterScreen());
       case RouteConstant.cart:
         return MaterialPageRoute(builder: (_) => CartScreen());
+      case RouteConstant.shippingMethod:
+        return MaterialPageRoute(builder: (_) => ShippingMethodScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

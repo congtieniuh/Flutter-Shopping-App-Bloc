@@ -27,23 +27,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final discoverBloc = DiscoverBloc();
+  final cartBloc = CartBloc();
+  final productDetailsBloc = ProductDetailsBloc();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) {
-              return DiscoverBloc()..add(LoadingDiscoverEvent());
+              return discoverBloc..add(LoadingDiscoverEvent());
             },
           ),
           BlocProvider(
             create: (context) {
-              return CartBloc()..add(CartLoadingEvent());
+              return cartBloc..add(CartLoadingEvent());
             },
           ),
           BlocProvider(
             create: (context) {
-              return ProductDetailsBloc();
+              return productDetailsBloc;
             },
           ),
         ],
@@ -54,5 +58,13 @@ class _MyAppState extends State<MyApp> {
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
             home: HomeScreen()));
+  }
+
+  @override
+  void dispose() {
+    discoverBloc.close();
+    cartBloc.close();
+    productDetailsBloc.close();
+    super.dispose();
   }
 }

@@ -8,4 +8,6 @@ class RouteConstant {
   static const String registerRoute = '/register';
   static const String productDetailsRoute = '/product_details';
   static const String cart = '/cart';
+  static const String shippingMethod = '/ship_method';
+
 }

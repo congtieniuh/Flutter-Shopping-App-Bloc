@@ -20,7 +20,7 @@ class Strings {
 
   static String dob = "Date of birth";
 
-
+  static String dummyShipping1 = "Lor is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown.";
   Strings._();
 
   //General

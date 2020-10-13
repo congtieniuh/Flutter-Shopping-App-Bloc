@@ -24,6 +24,7 @@ class CartRepositoryLocal extends CartRepository {
     var cartItems = List.generate(res.length, (index) {
       final data = res[index];
       return CartItem(
+          id: data['cart_items_id'],
           quantity: data['quantity'], product: Product.fromMap(data));
     });
     return Cart(cartItems);
@@ -32,5 +33,10 @@ class CartRepositoryLocal extends CartRepository {
   Future<void> updateQuantity(Product product, int value) async {
     _db.update(DBProvider.TABLE_CART_ITEMS, {"quantity": value},
         where: "product_id = ?", whereArgs: [product.id]);
+  }
+
+  Future<void> removeCartItem(CartItem cartItem) async {
+    _db.delete(DBProvider.TABLE_CART_ITEMS,
+        where: "cart_items_id = ?", whereArgs: [cartItem.id]);
   }
 }

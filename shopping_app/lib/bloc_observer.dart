@@ -13,5 +13,11 @@ class SimpleBlocObserver extends BlocObserver {
     super.onTransition(bloc, transition);
   }
 
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stackTrace) {
+    print("=======> onTransition: $stackTrace");
+    super.onError(bloc, error, stackTrace);
+  }
+
 
 }

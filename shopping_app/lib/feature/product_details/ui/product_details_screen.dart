@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/product_details/bloc/product_details_bloc.dart';
 import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
 import 'package:shopping_app/route/route_constants.dart';
-import 'package:shopping_app/widget/appbar.dart';
-import 'package:shopping_app/widget/quater_circle.dart';
-import 'package:intl/intl.dart';
 
 import 'popup_desc_details.dart';
 
@@ -28,82 +26,89 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        elevation: 0,
-        title: Text(
-          widget.product.category,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.bold,
+    return BlocListener(
+        bloc: context.bloc<ProductDetailsBloc>(),
+        listener: (context, state) {
+          if (state is AddProductToBagFinished) {
+            Navigator.pushNamed(context, RouteConstant.cart);
+          }
+        },
+        child: Scaffold(
+          appBar: _toolbar(),
+          body: Stack(
+            children: [_contentBody(), _buttonAddToBag()],
+          ),
+        ));
+  }
+
+  Widget _contentBody() {
+    return ListView(
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      children: [
+        Stack(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(
+                            MediaQuery.of(context).size.width / 2))),
+                child: Center(
+                    child: Container(
+                  margin: EdgeInsets.only(right: 40),
+                  child: Image.asset(
+                    widget.product.images[0],
+                    width: 300,
+                    fit: BoxFit.fill,
+                  ),
+                ))),
+          ],
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        SizedBox(height: 100, child: listImageDetails(widget.product.images)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Container(
+            height: 2,
+            color: Colors.grey[300],
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RaisedButton(
-              onPressed: () {},
-              color: Colors.redAccent,
-              shape: CircleBorder(),
-              elevation: 6,
-              child: Icon(
-                Ionicons.ios_heart,
-                color: Colors.white,
-              ),
+        bodyContentDetails()
+      ],
+    );
+  }
+
+  Widget _toolbar() {
+    return AppBar(
+      backgroundColor: Colors.redAccent,
+      elevation: 0,
+      title: Text(
+        widget.product.category,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RaisedButton(
+            onPressed: () {},
+            color: Colors.redAccent,
+            shape: CircleBorder(),
+            elevation: 6,
+            child: Icon(
+              Ionicons.ios_heart,
+              color: Colors.white,
             ),
-          )
-        ],
-      ),
-      body: Stack(
-        children: [
-          ListView(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            children: [
-              Stack(
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2))),
-                      child: Center(
-                          child: Container(
-                            margin: EdgeInsets.only(right: 40),
-                            child: Image.asset(
-                              widget.product.images[0],
-                              width: 300,
-                              fit: BoxFit.fill,
-                            ),
-                          ))),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                  height: 100, child: listImageDetails(widget.product.images)),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 12.0),
-                child: Container(
-                  height: 2,
-                  color: Colors.grey[300],
-                ),
-              ),
-              bodyContentDetails()
-            ],
           ),
-          _buttonAddToBag()
-        ],
-      ),
+        )
+      ],
     );
   }
 
@@ -272,14 +277,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buttonAddToBag() {
     return Align(
         alignment: Alignment.bottomCenter,
-
-        child: BlocListener(
-            bloc: BlocProvider.of<ProductDetailsBloc>(context),
-            listener: (context, state) {
-              if (state is AddProductToBagFinished) {
-                Navigator.pushNamed(context, RouteConstant.cart);
-              }
-            }, child: Container(
+        child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           width: double.infinity,
           child: RaisedButton(
@@ -292,8 +290,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 'ADD TO BAG',
                 style: whiteText,
               )),
-        ),)
-    );
+        ));
   }
 
   onSelectedSize(int index, double size) {
