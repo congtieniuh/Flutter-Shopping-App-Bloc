@@ -7,6 +7,7 @@ import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/home/home.dart';
 import 'package:shopping_app/feature/product_details/ui/product_details_screen.dart';
 import 'package:shopping_app/feature/shipping/shipping_method_screen.dart';
+import 'package:shopping_app/route/slide_route_builder.dart';
 
 import 'route_constants.dart';
 
@@ -14,23 +15,23 @@ class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteConstant.homeRoute:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return SlideRouteBuilder(page: HomeScreen());
       case RouteConstant.productDetailsRoute:
         Product product = settings.arguments;
-        return MaterialPageRoute(
-            builder: (_) => ProductDetailsScreen(
-                  product: product,
-                ));
+        return SlideRouteBuilder(
+            page: ProductDetailsScreen(
+          product: product,
+        ));
       case RouteConstant.loginRoute:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+        return SlideRouteBuilder(page: LoginScreen());
       case RouteConstant.registerRoute:
-        return MaterialPageRoute(builder: (_) => RegisterScreen());
+        return SlideRouteBuilder(page: RegisterScreen());
       case RouteConstant.cart:
-        return MaterialPageRoute(builder: (_) => CartScreen());
+        return SlideRouteBuilder(page: CartScreen());
       case RouteConstant.shippingMethod:
-        return MaterialPageRoute(builder: (_) => ShippingMethodScreen());
+        return SlideRouteBuilder(page: ShippingMethodScreen());
       case RouteConstant.creditCard:
-        return MaterialPageRoute(builder: (_) => CreditCardDetailsScreen());
+        return SlideRouteBuilder(page: CreditCardDetailsScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
