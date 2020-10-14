@@ -9,5 +9,6 @@ class RouteConstant {
   static const String productDetailsRoute = '/product_details';
   static const String cart = '/cart';
   static const String shippingMethod = '/ship_method';
+  static const String creditCard = '/credit_card';
 
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shopping_app/feature/cart/bloc/cart_bloc.dart';
 import 'package:shopping_app/feature/cart/models/cart.dart';
 import 'package:shopping_app/feature/cart/models/cart_item.dart';
@@ -9,7 +8,6 @@ import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/alert_dialog.dart';
-import 'package:shopping_app/widget/appbar.dart';
 import 'package:intl/intl.dart';
 
 class CartScreen extends StatefulWidget {

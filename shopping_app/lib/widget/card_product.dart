@@ -10,14 +10,16 @@ class CardProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: onTapCard,
       child: Stack(
         children: [
           Container(
             margin: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-            width: 200,
-            height: 400,
+            width: width * 0.5,
+            height: height * 0.4,
             decoration: BoxDecoration(
                 color: Colors.blueAccent,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -53,12 +55,12 @@ class CardProduct extends StatelessWidget {
           ),
           Positioned(
             right: 0,
-            bottom: 50,
+            bottom: 30,
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
-                  width: 200,
-                  height: 200,
+                  width: width * 0.55,
+                  height: height * 0.3,
                   child: Image.asset(
                     '${product.images[0]}',
                     fit: BoxFit.contain,

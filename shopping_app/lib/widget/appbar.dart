@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/resources/app_theme.dart';
 
 class CommonAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
