@@ -54,7 +54,7 @@ class CreditCardWidget extends StatelessWidget {
           (orientation == Orientation.portrait ? height / 4 : height / 2),
       child: Stack(
         children: <Widget>[
-          getRandomBackground(height, width),
+          getRandomBackground(height, width, creditCard.color),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -70,12 +70,22 @@ class CreditCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  height: 16,
+                  height: 8,
                 ),
-                getChipImage(),
-                Container(
-                  height: 16,
-                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  getChipImage(),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+                      child: getCardTypeIcon(creditCard.cardNumber),
+                    ),
+                  ),
+                ],),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Text(
@@ -87,68 +97,81 @@ class CreditCardWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 8,
+                  height: 16,
                 ),
                 Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Expiry',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'halter',
-                            fontSize: 9,
-                            package: 'credit_card',
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16, bottom: 6),
+                            child: Text(
+                              'Card holder',
+                              style: TextStyle(
+                                color: Colors.white38,
+                                fontFamily: 'halter',
+                                fontSize: 9,
+                                package: 'credit_card',
+                              ),
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: 16,
-                        ),
-                        Text(
-                          creditCard.expiryDate.isEmpty ||
-                                  creditCard.expiryDate == null
-                              ? 'MM/YY'
-                              : creditCard.expiryDate,
-                          style: textStyle ?? defaultTextStyle,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                    child: Text(
-                      creditCard.cardHolderName.isEmpty ||
-                              creditCard.cardHolderName == null
-                          ? 'CARD HOLDER'
-                          : creditCard.cardHolderName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'halter',
-                        fontSize: 14,
-                        package: 'credit_card',
+                          Expanded(
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                              child: Text(
+                                creditCard.cardHolderName.isEmpty ||
+                                    creditCard.cardHolderName == null
+                                    ? 'CARD HOLDER'
+                                    : creditCard.cardHolderName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'halter',
+                                  fontSize: 14,
+                                  package: 'credit_card',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                        crossAxisAlignment: CrossAxisAlignment.start,
                       ),
-                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, bottom: 6, right: 32),
+                            child: Text(
+                              'Expiry',
+                              style: TextStyle(
+                                color: Colors.white38,
+                                fontFamily: 'halter',
+                                fontSize: 9,
+                                package: 'credit_card',
+                              ),
+                            ),
+                          ),
+                          Text(
+                            creditCard.expiryDate.isEmpty ||
+                                creditCard.expiryDate == null
+                                ? 'MM/YY'
+                                : creditCard.expiryDate,
+                            style: textStyle ?? defaultTextStyle,
+                          ),
+                        ],
+                      )
+
+                    ],
                   ),
-                ),
+                )
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-              child: getCardTypeIcon(creditCard.cardNumber),
-            ),
-          ),
+
         ],
       ),
     );
@@ -262,7 +285,7 @@ enum CardType {
 }
 
 
-Container getRandomBackground(double height, double width) {
+Container getRandomBackground(double height, double width, MaterialColor color) {
   return Container(
     child: Flex(
       direction: Axis.horizontal,
@@ -272,7 +295,7 @@ Container getRandomBackground(double height, double width) {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16.0),
             child: Container(
-              color: Colors.lightBlue,
+              color: color,
             )
           ),
         )

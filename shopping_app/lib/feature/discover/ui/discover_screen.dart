@@ -22,6 +22,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   String _currentProductType = '';
   String _currentCategory = '';
 
+  double width;
+  double height;
+
   @override
   void initState() {
     super.initState();
@@ -29,118 +32,134 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    height = MediaQuery
+        .of(context)
+        .size
+        .height;
+
     return Scaffold(
-      appBar: CommonAppBar(title: 'Discover'),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(height: 70, child: _buildListCategory()),
-          Flexible(
-              flex: 3,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    Container(width: 70, child: _buildListType()),
-                    Expanded(child: _buildListProduct()),
-                  ],
-                ),
-              )),
-          Flexible(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'More',
-                      style: headingText,
-                    ),
-                    IconButton(
-                        icon: Image.asset(
-                          'assets/icon/right-arrow.png',
-                        ),
-                        onPressed: () {})
-                  ],
-                ),
-              )),
-          Flexible(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: [
-                    Flexible(flex: 2, child: _buildCardBottomNew()),
-                    Flexible(flex: 2, child: _buildCardBottomNew())
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+        appBar: CommonAppBar(title: 'Discover'),
+        body: ListView(
+          scrollDirection: Axis.vertical,
+          children: [
+            Container(height: 70, child: _buildListCategory()),
+            Row(
+              children: [
+                Container(
+                    width: width * 0.1,
+                    height: height * 0.40,
+                    child: _buildListType()),
+                Container(
+                    width: width * 0.9,
+                    height: height * 0.40,
+                    child: _buildListProduct()),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'More',
+                    style: headingText,
+                  ),
+                  IconButton(
+                      icon: Image.asset(
+                        'assets/icon/right-arrow.png',
+                      ),
+                      onPressed: () {})
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  Flexible(flex: 2, child: _buildCardBottomNew()),
+                  Flexible(flex: 2, child: _buildCardBottomNew())
+                ],
+              ),
+            )
+          ],
+        ));
   }
 
   Widget _buildCardBottomNew() {
     return Card(
       color: Colors.white,
-      child: Stack(
-        children: [
-          Align(
-            child: Container(
-              width: 30,
-              height: 100,
-              color: AppColors.indianRed,
-              child: Center(
-                child: RotatedBox(
-                  quarterTurns: -1,
-                  child: Text(
-                    'New',
-                    style: TextStyle(color: Colors.white),
+      child: Container(
+        width: width * 0.5,
+        height: height * 0.25,
+        child: Stack(
+          children: [
+            Align(
+              child: LayoutBuilder(builder: (context, constraints) {
+                return Container(
+                  width: constraints.maxWidth / 6,
+                  height: constraints.maxHeight / 2,
+                  color: AppColors.indianRed,
+                  child: Center(
+                    child: RotatedBox(
+                      quarterTurns: -1,
+                      child: Text(
+                        'New',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
-                ),
+                );
+              },),
+              alignment: Alignment.topLeft,
+            ),
+            Align(
+              child: IconButton(
+                  icon: Image.asset(
+                    'assets/icon/heart_outline.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                  onPressed: () {}),
+              alignment: Alignment.topRight,
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        'assets/snkr_01.png',
+                        width: constraints.maxWidth / 1.2,
+                        height: constraints.maxHeight / 1.5,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Nike Air Max',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '\$130.00',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+                },
               ),
             ),
-            alignment: Alignment.topLeft,
-          ),
-          Align(
-            child: IconButton(
-                icon: Image.asset(
-                  'assets/icon/heart_outline.png',
-                  width: 20,
-                  height: 20,
-                ),
-                onPressed: () {}),
-            alignment: Alignment.topRight,
-          ),
-          Align(
-            child: Image.asset(
-              'assets/snkr_01.png',
-              height: 150,
-              width: 150,
-            ),
-            alignment: Alignment.center,
-          ),
-          Align(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Nike Air Max',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '\$130.00',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            alignment: Alignment.bottomCenter,
-          )
-        ],
+
+          ],
+        ),
       ),
     );
   }
@@ -163,7 +182,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               return CardProduct(
                 product: product,
                 onTapCard: () {
-                  Navigator.pushNamed(context, RouteConstant.productDetailsRoute, arguments: product);
+                  Navigator.pushNamed(
+                      context, RouteConstant.productDetailsRoute,
+                      arguments: product);
                 },
               );
             });
@@ -173,7 +194,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   Widget _buildListType() {
     return ListView.builder(
-        itemCount: ProductType.values().length,
+        itemCount: ProductType
+            .values()
+            .length,
         itemBuilder: (context, index) {
           var type = ProductType.values()[index];
           _isSelectedProductType = _currentIndexProductType == index;
@@ -199,6 +222,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   Widget _buildListCategory() {
     return ListView.builder(
+        shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         itemBuilder: (context, index) {

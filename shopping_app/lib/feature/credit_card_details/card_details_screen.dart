@@ -150,11 +150,11 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
       children: creditCards.map((card) {
         int index = creditCards.indexOf(card);
         return Container(
-          width: 8.0,
-          height: 8.0,
+          width: 12.0,
+          height: 4.0,
           margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(8),
             color: _current == index
                 ? Color.fromRGBO(0, 0, 0, 0.9)
                 : Color.fromRGBO(0, 0, 0, 0.4),
