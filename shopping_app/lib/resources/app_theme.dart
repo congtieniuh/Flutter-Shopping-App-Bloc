@@ -9,6 +9,14 @@ const minorText = TextStyle(
   fontWeight: FontWeight.normal,
 );
 
+const minorTextWhite = TextStyle(
+  color: Colors.white,
+  fontSize: 16,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.normal,
+);
+
+
 const headingText = TextStyle(
   color: AppColors.black,
   fontSize: 24,
@@ -38,4 +46,9 @@ const boldTextMedium = TextStyle(
 const textMedium = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 16,
+);
+const textMediumWhite = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+  color: Colors.white
 );

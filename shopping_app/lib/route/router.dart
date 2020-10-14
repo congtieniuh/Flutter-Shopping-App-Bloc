@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/flutter/flutter_project/important/shopping_app/lib/route/route_constants.dart';
 import 'package:shopping_app/feature/auth/login/login_screen.dart';
 import 'package:shopping_app/feature/auth/register/register_screen.dart';
 import 'package:shopping_app/feature/cart/ui/cart_screen.dart';
+import 'package:shopping_app/feature/credit_card_details/card_details_screen.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/home/home.dart';
 import 'package:shopping_app/feature/product_details/ui/product_details_screen.dart';
 import 'package:shopping_app/feature/shipping/shipping_method_screen.dart';
+
+import 'route_constants.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -27,6 +29,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => CartScreen());
       case RouteConstant.shippingMethod:
         return MaterialPageRoute(builder: (_) => ShippingMethodScreen());
+      case RouteConstant.creditCard:
+        return MaterialPageRoute(builder: (_) => CreditCardDetailsScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

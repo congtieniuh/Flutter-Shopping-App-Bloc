@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/discover/repository/discover_repository.dart';
 import 'package:shopping_app/feature/discover/repository/firebase_discover_repository.dart';

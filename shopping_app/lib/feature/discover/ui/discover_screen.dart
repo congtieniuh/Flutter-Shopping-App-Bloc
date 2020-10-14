@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/feature/discover/bloc/discover_bloc.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/resources/resources.dart';
-import 'package:shopping_app/resources/utils.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:shopping_app/widget/card_product.dart';
