@@ -26,6 +26,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       yield* _mapLoadDiscoverEvent(event);
     } else if (event is DiscoverUpdatedEvent) {
       yield* _mapDiscoverUpdatedEventToState(event);
+    } else if (event is LoadingWishlistEvent) {
+      yield* _mapLoadWishlistEvent(event);
+    } else if (event is WishlistUpdatedEvent) {
+      yield* _mapWishlistUpdatedEventToState(event);
     }
   }
 
@@ -35,7 +39,8 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     return super.close();
   }
 
-  Stream<DiscoverState> _mapLoadDiscoverEvent(LoadingDiscoverEvent event) async* {
+  Stream<DiscoverState> _mapLoadDiscoverEvent(
+      LoadingDiscoverEvent event) async* {
     _streamSubscription =
         _discoverRepository.getListProduct().listen((products) {
       add(DiscoverUpdatedEvent(
@@ -43,18 +48,30 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
           category: event.category,
           productType: event.productType));
     });
-
   }
 
   Stream<DiscoverState> _mapDiscoverUpdatedEventToState(
       DiscoverUpdatedEvent event) async* {
     var filterList = event.products.where((element) {
-      print('-------------------> ${element.productType} - ${event.productType} & ${element.category} - ${event.category}');
-
       return element.productType == event.productType &&
           element.category == event.category;
     }).toList();
 
     yield DiscoverLoadFinished(products: filterList, isSuccess: true);
+  }
+
+  Stream<DiscoverState> _mapLoadWishlistEvent(
+      LoadingWishlistEvent event) async* {
+    _discoverRepository.getListProduct().listen((event) {
+      var filterList = event.where((element) {
+        return element.isFavourite;
+      }).toList();
+      add(WishlistUpdatedEvent(products: filterList));
+    });
+  }
+
+  Stream<DiscoverState> _mapWishlistUpdatedEventToState(
+      WishlistUpdatedEvent event) async* {
+    yield WishlistLoadFinished(products: event.products, isSuccess: true);
   }
 }

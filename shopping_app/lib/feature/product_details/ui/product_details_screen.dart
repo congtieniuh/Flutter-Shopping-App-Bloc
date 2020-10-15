@@ -11,9 +11,9 @@ import 'package:shopping_app/route/route_constants.dart';
 import 'popup_desc_details.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  final Product product;
+  final String productId;
 
-  const ProductDetailsScreen({Key key, this.product}) : super(key: key);
+  const ProductDetailsScreen({Key key, this.productId}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -24,21 +24,43 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   var _isSelectedSize = false;
   var _currentIndexSize = 0;
 
+  Product product;
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .bloc<ProductDetailsBloc>()
+        .add(LoadProductDetails(widget.productId));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
-        bloc: context.bloc<ProductDetailsBloc>(),
-        listener: (context, state) {
-          if (state is AddProductToBagFinished) {
-            Navigator.pushNamed(context, RouteConstant.cart);
-          }
-        },
-        child: Scaffold(
-          appBar: _toolbar(),
-          body: Stack(
-            children: [_contentBody(), _buttonAddToBag()],
-          ),
-        ));
+    BlocListener(
+      bloc: context.bloc<ProductDetailsBloc>(),
+      listener: (context, state) {
+        if (state is AddProductToBagFinished) {
+          Navigator.pushNamed(context, RouteConstant.cart);
+        }
+      },
+    );
+
+    return BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+      builder: (context, state) {
+        if(state is LoadProductDetailsFinished){
+          product = state.product;
+        }
+
+        return Scaffold(
+          appBar: product == null ? AppBar(backgroundColor: Colors.white38,) : _toolbar(),
+          body: product == null
+              ? Container()
+              : Stack(
+                  children: [_contentBody(), _buttonAddToBag()],
+                ),
+        );
+      },
+    );
   }
 
   Widget _contentBody() {
@@ -58,7 +80,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Container(
                   margin: EdgeInsets.only(right: 40),
                   child: Image.asset(
-                    widget.product.images[0],
+                    product.images[0],
                     width: 300,
                     fit: BoxFit.fill,
                   ),
@@ -68,7 +90,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         SizedBox(
           height: 16,
         ),
-        SizedBox(height: 100, child: listImageDetails(widget.product.images)),
+        SizedBox(height: 100, child: listImageDetails(product.images)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Container(
@@ -86,7 +108,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       backgroundColor: Colors.redAccent,
       elevation: 0,
       title: Text(
-        widget.product.category,
+        product.category ?? "",
         style: TextStyle(
           color: Colors.white,
           fontSize: 24,
@@ -98,12 +120,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () => addToWishlistClick(),
             color: Colors.redAccent,
             shape: CircleBorder(),
             elevation: 6,
             child: Icon(
-              Ionicons.ios_heart,
+              product.isFavourite
+                  ? Ionicons.ios_heart
+                  : Ionicons.ios_heart_empty,
               color: Colors.white,
             ),
           ),
@@ -122,14 +146,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.product.title,
+                product.title,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
               Text(
-                formatCurrency.format(widget.product.price),
+                formatCurrency.format(product.price),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -141,7 +165,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 20,
           ),
           Text(
-            widget.product.description,
+            product.description,
             style: TextStyle(color: Colors.black54),
             maxLines: 5,
           ),
@@ -154,7 +178,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 context: context,
                 builder: (context) {
                   return DescriptionDetailsDialog(
-                    product: widget.product,
+                    product: product,
                   );
                 },
               );
@@ -208,7 +232,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
             height: 16,
           ),
-          SizedBox(height: 60, child: listSize(widget.product.remainingSizeUS)),
+          SizedBox(height: 60, child: listSize(product.remainingSizeUS)),
           SizedBox(
             height: 100,
           ),
@@ -300,7 +324,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   addProductToCart() {
-    BlocProvider.of<ProductDetailsBloc>(context)
-        .add(AddProductToCart(widget.product));
+    BlocProvider.of<ProductDetailsBloc>(context).add(AddProductToCart(product));
+  }
+
+  addToWishlistClick() {
+    context.bloc<ProductDetailsBloc>().add(AddToWishlistEvent(product));
   }
 }

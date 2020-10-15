@@ -10,15 +10,15 @@ class ProductType {
 
 class Product {
   final String id;
-  final String title, briefDescription, description;
-  final List<String> images;
-  final int colors;
-  final double price;
-  final String category;
-  final bool isFavourite;
-  final List<double> remainingSizeUK;
-  final List<double> remainingSizeUS;
-  final String productType;
+  String title, briefDescription, description;
+  List<String> images;
+  int colors;
+  double price;
+  String category;
+  bool isFavourite;
+  List<double> remainingSizeUK;
+  List<double> remainingSizeUS;
+  String productType;
 
   Product(
       {this.id,
