@@ -3,6 +3,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shopping_app/feature/cart/ui/cart_screen.dart';
 import 'package:shopping_app/feature/discover/ui/discover_screen.dart';
+import 'package:shopping_app/feature/wishlist/ui/wishlist_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -16,14 +18,15 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   DiscoverScreen _discoverScreen;
   CartScreen _cartScreen;
+  Wishlist _wishlist;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-
     _discoverScreen = DiscoverScreen();
     _cartScreen = CartScreen();
+    _wishlist = Wishlist();
   }
 
   @override
@@ -43,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             children: <Widget>[
               _discoverScreen,
-              Container(),
+              _wishlist,
               _cartScreen,
               Container(),
             ],

@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/feature/discover/bloc/discover_bloc.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
+import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:shopping_app/widget/card_product.dart';
+
+import '../../../route/route_constants.dart';
+import '../bloc/discover_bloc.dart';
+import '../model/product.dart';
 
 class DiscoverScreen extends StatefulWidget {
   @override
@@ -25,6 +30,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   double width;
   double height;
 
+  List<Product> listProduct;
+
   @override
   void initState() {
     super.initState();
@@ -32,14 +39,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: CommonAppBar(title: 'Discover'),
@@ -70,9 +71,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                   IconButton(
                       icon: Image.asset(
-                        'assets/icon/right-arrow.png',
+                        R.icon.rightArrow,
                       ),
-                      onPressed: () {})
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, RouteConstant.productCategory, arguments: {
+                          "listProduct": listProduct,
+                          "categoryName": categories[_currentIndexCategory]
+                        });
+                      })
                 ],
               ),
             ),
@@ -98,35 +105,36 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         child: Stack(
           children: [
             Align(
-              child: LayoutBuilder(builder: (context, constraints) {
-                return Container(
-                  width: constraints.maxWidth / 6,
-                  height: constraints.maxHeight / 2,
-                  color: AppColors.indianRed,
-                  child: Center(
-                    child: RotatedBox(
-                      quarterTurns: -1,
-                      child: Text(
-                        'New',
-                        style: TextStyle(color: Colors.white),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Container(
+                    width: constraints.maxWidth * 0.15,
+                    height: constraints.maxHeight * 0.5,
+                    color: AppColors.indianRed,
+                    child: Center(
+                      child: RotatedBox(
+                        quarterTurns: -1,
+                        child: Text(
+                          'New',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },),
+                  );
+                },
+              ),
               alignment: Alignment.topLeft,
             ),
             Align(
               child: IconButton(
                   icon: Image.asset(
-                    'assets/icon/heart_outline.png',
+                    R.icon.heartOutline,
                     width: 20,
                     height: 20,
                   ),
                   onPressed: () {}),
               alignment: Alignment.topRight,
             ),
-
             Align(
               alignment: Alignment.bottomCenter,
               child: LayoutBuilder(
@@ -136,8 +144,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     children: [
                       Image.asset(
                         'assets/snkr_01.png',
-                        width: constraints.maxWidth / 1.2,
-                        height: constraints.maxHeight / 1.5,
+                        width: constraints.maxWidth * 0.7,
+                        height: constraints.maxHeight * 0.7,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -157,7 +165,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 },
               ),
             ),
-
           ],
         ),
       ),
@@ -167,7 +174,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   Widget _buildListProduct() {
     return BlocBuilder<DiscoverBloc, DiscoverState>(
       builder: (context, state) {
-        var listProduct = [];
+        listProduct = [];
 
         if (state is DiscoverLoadFinished) {
           listProduct = state.products;
@@ -184,7 +191,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 onTapCard: () {
                   Navigator.pushNamed(
                       context, RouteConstant.productDetailsRoute,
-                      arguments: product);
+                      arguments: product.id);
                 },
               );
             });
@@ -194,9 +201,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   Widget _buildListType() {
     return ListView.builder(
-        itemCount: ProductType
-            .values()
-            .length,
+        itemCount: ProductType.values().length,
         itemBuilder: (context, index) {
           var type = ProductType.values()[index];
           _isSelectedProductType = _currentIndexProductType == index;

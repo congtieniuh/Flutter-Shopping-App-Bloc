@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shopping_app/db/db_provider.dart';
 import 'package:shopping_app/feature/cart/models/cart_item.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
-class ProductDetailsDao {
+class ProductDetailsRepository {
   Database db;
+  final productCollection = FirebaseFirestore.instance.collection('products');
 
-  ProductDetailsDao() {
+  ProductDetailsRepository() {
     db = DBProvider.instance.database;
   }
 
@@ -37,6 +39,31 @@ class ProductDetailsDao {
           DBProvider.TABLE_CART_ITEMS, {"quantity": currentQuantity + 1},
           where: "product_id = ?", whereArgs: [product.id]);
     }
+  }
+
+  Future<void> addToWishlist(Product product) {
+    return productCollection.doc('${product.id}').update({'isFavourite': true});
+  }
+
+  Future<Product> getProductDetails(String id) async {
+    var result = await  productCollection.doc(id).get();
+    return _productListFromSnapshot(result);
+  }
+
+  Product _productListFromSnapshot(DocumentSnapshot doc) {
+    return Product(
+        id: doc.id,
+        images: List<String>.from(doc.data()['images']),
+        colors: doc.data()['colors'],
+        title: doc.data()['title'],
+        price: doc.data()['price'],
+        isFavourite: doc.data()['isFavourite'],
+        category: doc.data()['category'],
+        description: doc.data()['description'],
+        briefDescription: doc.data()['briefDescription'],
+        remainingSizeUK: List<double>.from(doc.data()['remainingSizeUK']),
+        remainingSizeUS: List<double>.from(doc.data()['remainingSizeUS']),
+        productType: doc.data()['productType']);
   }
 
 /*  Future<void> query() async{

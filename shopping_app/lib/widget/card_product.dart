@@ -55,11 +55,11 @@ class CardProduct extends StatelessWidget {
           ),
           Positioned(
             right: 0,
-            bottom: 30,
+            bottom: 12,
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
-                  width: width * 0.55,
+                  width: width * 0.5,
                   height: height * 0.3,
                   child: Image.asset(
                     '${product.images[0]}',

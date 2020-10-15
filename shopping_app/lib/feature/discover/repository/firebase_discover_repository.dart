@@ -18,6 +18,7 @@ class FirebaseDiscoverRepository extends DiscoverRepository {
           colors: doc.data()['colors'],
           title: doc.data()['title'],
           price: doc.data()['price'] ,
+          isFavourite: doc.data()['isFavourite'],
           category: doc.data()['category'] ,
           description: doc.data()['description'],
           briefDescription: doc.data()['briefDescription'],
@@ -36,5 +37,6 @@ class FirebaseDiscoverRepository extends DiscoverRepository {
       discoverCollection.add(element.toMap());
     });
   }
+
 
 }

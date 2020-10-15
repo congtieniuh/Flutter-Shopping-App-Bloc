@@ -15,6 +15,7 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -24,8 +25,7 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
           color: Colors.black, //change your color here
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: ListView(
         children: [
           Padding(
               padding: const EdgeInsets.only(
@@ -38,38 +38,42 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
             color: Colors.grey[300],
             height: 1,
           ),
-          CarouselSlider(
-            items: List.generate(creditCards.length, (index) {
-              var creditCard = creditCards[index];
-              return Container(
-                  child: CreditCardWidget(creditCard: creditCard));
-            }).toList(),
-            options: CarouselOptions(
-                height: 220.0,
-                scrollDirection: Axis.horizontal,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                }),
+          Container(
+            child: CarouselSlider(
+              items: List.generate(creditCards.length, (index) {
+                var creditCard = creditCards[index];
+                return Container(
+                    child: CreditCardWidget(creditCard: creditCard));
+              }).toList(),
+              options: CarouselOptions(
+                  scrollDirection: Axis.horizontal,
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  }),
+            ),
           ),
           _indicatorSlider(),
           SizedBox(
             height: 30,
           ),
-          Expanded(child: rowInfo()),
+          Container(
+              child: rowInfo()),
           _nextButton()
         ],
-      ),
+      )
+
     );
   }
 
   Widget rowInfo() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Card holder name',

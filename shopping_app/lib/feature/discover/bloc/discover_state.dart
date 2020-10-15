@@ -23,3 +23,17 @@ class DiscoverLoadFinished extends DiscoverState {
     return 'DiscoverLoadFinished{products: $products}';
   }
 }
+class WishlistLoadFinished extends DiscoverState {
+  final bool isSuccess;
+  final List<Product> products;
+
+  WishlistLoadFinished({this.products = const [], this.isSuccess = false});
+
+  @override
+  List<Object> get props => [products, isSuccess];
+
+  @override
+  String toString() {
+    return 'WishlistLoadFinished{products: $products}';
+  }
+}

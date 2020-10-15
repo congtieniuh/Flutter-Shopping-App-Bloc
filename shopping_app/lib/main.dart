@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ],
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRouter.generateRoute,
             theme: ThemeData(
               primarySwatch: Colors.blue,
