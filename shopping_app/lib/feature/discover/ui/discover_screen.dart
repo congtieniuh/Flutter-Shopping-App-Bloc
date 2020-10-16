@@ -35,6 +35,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   @override
   void initState() {
     super.initState();
+    context.bloc<DiscoverBloc>().add(LoadingDiscoverEvent(
+      category: categories[_currentIndexCategory],
+      productType: ProductType.values()[_currentIndexProductType]
+    ));
   }
 
   @override

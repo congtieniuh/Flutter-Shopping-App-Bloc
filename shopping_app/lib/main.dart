@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
         providers: [
           BlocProvider(
             create: (context) {
-              return discoverBloc..add(LoadingDiscoverEvent());
+              return discoverBloc;
             },
           ),
           BlocProvider(

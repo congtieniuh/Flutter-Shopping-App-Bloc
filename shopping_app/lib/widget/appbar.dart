@@ -10,18 +10,20 @@ class CommonAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: color ?? Colors.grey[100],
-      title: Text(
-        title,
-        style: TextStyle(
-          color: textColor ?? Colors.black,
-          fontSize: 24,
-          fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.bold,
+      title: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            color: textColor ?? Colors.black,
+            fontSize: 24,
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(50.0);
+  Size get preferredSize => Size.fromHeight(70.0);
 }
