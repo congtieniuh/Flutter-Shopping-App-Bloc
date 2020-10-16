@@ -39,6 +39,13 @@ const headingText = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const headingTextWhite = TextStyle(
+  color: AppColors.white,
+  fontSize: 24,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.bold,
+);
+
 const headingText1 = TextStyle(
   color: AppColors.black,
   fontSize: 30,
