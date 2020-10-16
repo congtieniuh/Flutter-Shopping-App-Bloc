@@ -70,7 +70,7 @@ class _ShippingMethodScreenState extends State<ShippingMethodScreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed: () {
-            Navigator.pushNamed(context, RouteConstant.creditCard);
+            Navigator.pushNamed(context, RouteConstant.checkout);
           },
           color: AppColors.indianRed,
           child: Text(

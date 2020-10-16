@@ -26,6 +26,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Product product;
 
+  var _isAddedToBag = false;
+
   @override
   void initState() {
     super.initState();
@@ -36,14 +38,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    BlocListener(
-      bloc: context.bloc<ProductDetailsBloc>(),
-      listener: (context, state) {
-        if (state is AddProductToBagFinished) {
-          Navigator.pushNamed(context, RouteConstant.cart);
-        }
-      },
-    );
+
 
     return BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
       builder: (context, state) {
@@ -299,22 +294,35 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buttonAddToBag() {
-    return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-          width: double.infinity,
-          child: RaisedButton(
-              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0)),
-              onPressed: () => addProductToCart(),
-              color: AppColors.indianRed,
-              child: Text(
-                'ADD TO BAG',
-                style: whiteText,
-              )),
-        ));
+    return BlocListener(
+      bloc: context.bloc<ProductDetailsBloc>(),
+      listener: (context, state) {
+        if (state is AddProductToBagFinished) {
+          if(_isAddedToBag){
+            Navigator.pushNamed(context, RouteConstant.cart);
+          }
+          setState(() {
+            _isAddedToBag = true;
+          });
+        }
+      },
+      child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            width: double.infinity,
+            child: RaisedButton(
+                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0)),
+                onPressed: () => addProductToCart(),
+                color: _isAddedToBag ? AppColors.paleVioletRed : AppColors.indianRed,
+                child: Text(
+                  _isAddedToBag ? 'GO TO BAG' : 'ADD TO BAG',
+                  style: whiteText,
+                )),
+          )),
+    );
   }
 
   onSelectedSize(int index, double size) {
