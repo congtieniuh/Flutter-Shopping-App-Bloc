@@ -6,23 +6,22 @@ Shopping app is a design implementaion of [E-commerce App](https://dribbble.com/
   
 ## Android Screenshots
 
-  
+<table>
+  <tr>
+    <td>Home Screen</td>
+    <td>Product Details</td>
+    <td>Product cart</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="shopping_app/screenshot/img1.jpg" width=270 height=480></td>
+    <td valing="top"><img src="shopping_app/screenshot/img2.jpg" width=270 height=480></td>
+    <td valing="top"><img src="shopping_app/screenshot/img5.jpg" width=270 height=480></td>
+  </tr>
+ </table>
 
-HomePage | Product Detail Page | Cart Page
-
-:-------------------------:|:-------------------------:|:-------------------------:
-
-![](https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img1.jpg?raw=true)|![](https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img2.jpg?raw=true)|![](https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img5.jpg?raw=true)
-
-  
-
-![](https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img3.jpg?raw=true)
-  
-![](https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img4.jpg?raw=true)
-
-![](https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img6.jpg?raw=true)
-
-![]https://github.com/congtieniuh/Flutter-Shopping-App/blob/master/shopping_app/screenshot/img7.jpg?raw=true)
+ <br>
+<br>
+<hr>
 
 ## Directory Structure
 
