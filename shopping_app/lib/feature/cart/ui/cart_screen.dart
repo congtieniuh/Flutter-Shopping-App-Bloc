@@ -40,7 +40,6 @@ class _CartScreenState extends State<CartScreen> {
                 return Stack(
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
                             padding: const EdgeInsets.only(
@@ -64,6 +63,8 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         Expanded(
                           child: ListView.builder(
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
                             itemCount: cart.listCartItem.length,
                             itemBuilder: (context, index) {
                               final cartItem = cart.listCartItem[index];
@@ -71,16 +72,14 @@ class _CartScreenState extends State<CartScreen> {
                             },
                           ),
                         ),
+                        SizedBox(height: 120,)
                       ],
                     ),
                     Positioned(
                         bottom: 0,
                         child: Container(
                             color: Colors.white,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
+                            width: MediaQuery.of(context).size.width,
                             height: 120,
                             child: _resultCart(cart.getTotalPrice()))),
                   ],
@@ -131,8 +130,8 @@ class _CartScreenState extends State<CartScreen> {
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: RaisedButton(
           padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed: () {
             Navigator.pushNamed(context, RouteConstant.shippingMethod);
           },
@@ -162,9 +161,9 @@ class _CartScreenState extends State<CartScreen> {
                 bottom: 40,
                 child: Center(
                     child: Image.asset(
-                      cartItem.product.images[0],
-                      width: 140,
-                    )))
+                  cartItem.product.images[0],
+                  width: 140,
+                )))
           ],
         ),
         Padding(
@@ -241,7 +240,7 @@ class _CartScreenState extends State<CartScreen> {
           "Remove cart items?",
           ""
               "Are you sure to remove ${product.title} from the shopping cart",
-              () =>
+          () =>
               BlocProvider.of<CartBloc>(context).add(RemoveCartItem(cartItem)));
     } else {
       BlocProvider.of<CartBloc>(context).add(

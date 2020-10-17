@@ -105,7 +105,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       color: Colors.white,
       child: Container(
         width: width * 0.5,
-        height: height * 0.25,
+        height: width * 0.4,
         child: Stack(
           children: [
             Align(
@@ -148,8 +148,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     children: [
                       Image.asset(
                         'assets/snkr_01.png',
-                        width: constraints.maxWidth * 0.7,
-                        height: constraints.maxHeight * 0.7,
+                        width: constraints.maxWidth * 0.5,
+                        height: constraints.maxHeight * 0.5,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,

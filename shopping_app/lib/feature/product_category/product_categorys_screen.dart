@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
+import 'package:shopping_app/route/route_constants.dart';
 import '../discover/model/product.dart';
 import 'package:intl/intl.dart';
 
@@ -57,52 +58,58 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
   }
 
   Widget _buildCardProduct(Product product) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      color: Colors.white,
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              child: IconButton(
-                  icon: Image.asset(
-                    R.icon.heartOutline,
-                    width: 20,
-                    height: 20,
-                  ),
-                  onPressed: () {}),
-              alignment: Alignment.topRight,
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.center,
-                child: Transform(
+    return InkWell(
+      onTap: () => Navigator.pushNamed(
+          context, RouteConstant.productDetailsRoute,
+          arguments: product.id),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        color: Colors.white,
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                child: IconButton(
+                    icon: Image.asset(
+                      R.icon.heartOutline,
+                      width: 20,
+                      height: 20,
+                    ),
+                    onPressed: () {}),
+                alignment: Alignment.topRight,
+              ),
+              Expanded(
+                child: Align(
                   alignment: Alignment.center,
-                  transform: Matrix4.rotationY(pi),
-                  child: Image.asset(
-                    product.images[0],
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(pi),
+                    child: Image.asset(
+                      product.images[0],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              child: Text(
-                product.title,
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: Text(
+                  product.title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, bottom: 12),
-              child: Text(
-                "${formatCurrency.format(product.price)}",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, bottom: 12),
+                child: Text(
+                  "${formatCurrency.format(product.price)}",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
