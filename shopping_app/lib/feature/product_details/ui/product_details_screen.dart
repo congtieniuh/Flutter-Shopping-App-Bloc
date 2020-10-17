@@ -8,6 +8,7 @@ import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/bottom_dialog.dart';
+import 'package:shopping_app/widget/loader_wiget.dart';
 
 import 'popup_desc_details.dart';
 
@@ -39,18 +40,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
       builder: (context, state) {
-        if(state is LoadProductDetailsFinished){
+        if (state is LoadProductDetailsFinished) {
           product = state.product;
         }
 
         return Scaffold(
-          appBar: product == null ? AppBar(backgroundColor: Colors.white38,) : _toolbar(),
+          appBar: product == null
+              ? AppBar(
+                  backgroundColor: Colors.white38,
+                )
+              : _toolbar(),
           body: product == null
-              ? Container()
+              ? LoaderPage()
               : Stack(
                   children: [_contentBody(), _buttonAddToBag()],
                 ),
@@ -169,7 +172,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 20,
           ),
           InkWell(
-            onTap: () async{
+            onTap: () async {
               await showModalBottomSheet(
                 context: context,
                 elevation: 30,
@@ -303,7 +306,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       bloc: context.bloc<ProductDetailsBloc>(),
       listener: (context, state) {
         if (state is AddProductToBagFinished) {
-          if(_isAddedToBag){
+          if (_isAddedToBag) {
             Navigator.pushNamed(context, RouteConstant.cart);
           }
           setState(() {
@@ -321,7 +324,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
                 onPressed: () => addProductToCart(),
-                color: _isAddedToBag ? AppColors.paleVioletRed : AppColors.indianRed,
+                color: _isAddedToBag
+                    ? AppColors.paleVioletRed
+                    : AppColors.indianRed,
                 child: Text(
                   _isAddedToBag ? 'GO TO BAG' : 'ADD TO BAG',
                   style: whiteText,
@@ -329,8 +334,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           )),
     );
   }
-
-
 
   onSelectedSize(int index, double size) {
     setState(() {
@@ -346,4 +349,3 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     context.bloc<ProductDetailsBloc>().add(AddToWishlistEvent(product));
   }
 }
-
