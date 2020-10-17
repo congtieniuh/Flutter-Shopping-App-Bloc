@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopping_app/feature/auth/login/login_screen.dart';
 import 'package:shopping_app/feature/auth/register/register_screen.dart';
 import 'package:shopping_app/feature/cart/ui/cart_screen.dart';
+import 'package:shopping_app/feature/checkout/checkout_screen.dart';
 import 'package:shopping_app/feature/credit_card_details/card_details_screen.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
 import 'package:shopping_app/feature/home/home.dart';
@@ -34,6 +35,8 @@ class AppRouter {
         return SlideRouteBuilder(page: ShippingMethodScreen());
       case RouteConstant.creditCard:
         return SlideRouteBuilder(page: CreditCardDetailsScreen());
+      case RouteConstant.checkout:
+        return SlideRouteBuilder(page: CheckoutScreen());
       case RouteConstant.productCategory:
         final Map arguments = settings.arguments as Map;
 

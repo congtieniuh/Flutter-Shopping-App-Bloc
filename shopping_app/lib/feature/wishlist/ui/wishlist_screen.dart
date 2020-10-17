@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:shopping_app/resources/R.dart';
+import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:shopping_app/feature/discover/bloc/discover_bloc.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
@@ -60,54 +61,63 @@ class _WishlistState extends State<Wishlist> {
   }
 
   Widget _buildCardProduct(Product product) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      color: Colors.white,
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              child: Container(
-                margin: EdgeInsets.only(top: 12, right: 12),
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    shape: BoxShape.circle),
-                child: Icon(Ionicons.ios_close, color: Colors.white,),
+    return InkWell(
+      onTap: () => Navigator.pushNamed(
+          context, RouteConstant.productDetailsRoute,
+          arguments: product.id),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        color: Colors.white,
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                child: Container(
+                  margin: EdgeInsets.only(top: 12, right: 12),
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      shape: BoxShape.circle),
+                  child: Icon(
+                    Ionicons.ios_close,
+                    color: Colors.white,
+                  ),
+                ),
+                alignment: Alignment.topRight,
               ),
-              alignment: Alignment.topRight,
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.center,
-                child: Transform(
+              Expanded(
+                child: Align(
                   alignment: Alignment.center,
-                  transform: Matrix4.rotationY(pi),
-                  child: Image.asset(
-                    product.images[0],
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(pi),
+                    child: Image.asset(
+                      product.images[0],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              child: Text(
-                product.title,
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: Text(
+                  product.title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, bottom: 12),
-              child: Text(
-                "${formatCurrency.format(product.price)}",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, bottom: 12),
+                child: Text(
+                  "${formatCurrency.format(product.price)}",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

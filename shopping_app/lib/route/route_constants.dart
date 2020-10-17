@@ -11,5 +11,6 @@ class RouteConstant {
   static const String shippingMethod = '/ship_method';
   static const String creditCard = '/credit_card';
   static const String productCategory = '/product_category';
+  static const String checkout = '/checkout';
 
 }

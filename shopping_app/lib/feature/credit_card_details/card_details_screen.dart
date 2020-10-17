@@ -138,10 +138,11 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed: () {
+            Navigator.pop(context);
           },
           color: AppColors.indianRed,
           child: Text(
-            'Next',
+            'OK',
             style: whiteText,
           )),
     );

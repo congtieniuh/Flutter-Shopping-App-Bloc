@@ -9,6 +9,21 @@ const minorText = TextStyle(
   fontWeight: FontWeight.normal,
 );
 
+const minorTextBold = TextStyle(
+  color: Color.fromRGBO(128, 128, 128, 1),
+  fontSize: 16,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.bold,
+);
+
+
+const smallText = TextStyle(
+  color: Colors.grey,
+  fontSize: 12,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.normal,
+);
+
 const minorTextWhite = TextStyle(
   color: Colors.white,
   fontSize: 16,
@@ -19,6 +34,13 @@ const minorTextWhite = TextStyle(
 
 const headingText = TextStyle(
   color: AppColors.black,
+  fontSize: 24,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.bold,
+);
+
+const headingTextWhite = TextStyle(
+  color: AppColors.white,
   fontSize: 24,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.bold,

@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shopping_app/feature/cart/ui/cart_screen.dart';
 import 'package:shopping_app/feature/discover/ui/discover_screen.dart';
+import 'package:shopping_app/feature/profile/profile_screen.dart';
 import 'package:shopping_app/feature/wishlist/ui/wishlist_screen.dart';
 
 
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   DiscoverScreen _discoverScreen;
   CartScreen _cartScreen;
   Wishlist _wishlist;
+  ProfileScreen _profileScreen;
 
   @override
   void initState() {
@@ -27,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _discoverScreen = DiscoverScreen();
     _cartScreen = CartScreen();
     _wishlist = Wishlist();
+    _profileScreen = ProfileScreen();
+
   }
 
   @override
@@ -48,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _discoverScreen,
               _wishlist,
               _cartScreen,
-              Container(),
+              _profileScreen,
             ],
           ),
         ),
