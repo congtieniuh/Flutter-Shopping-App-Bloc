@@ -22,13 +22,14 @@ Shopping app is a design implementaion of [E-commerce App](https://dribbble.com/
     <td></td>
     <td></td>
     <td></td>
-     <td></td>
   </tr>
   <tr>
     <td valign="top"><img src="shopping_app/screenshot/img3.jpg" width=270 height=500></td>
     <td valing="top"><img src="shopping_app/screenshot/img4.jpg" width=270 height=500></td>
     <td valing="top"><img src="shopping_app/screenshot/img6.jpg" width=270 height=500></td>
-     <td valing="top"><img src="shopping_app/screenshot/img7.jpg" width=270 height=500></td>
+  </tr>
+  <tr>
+      <td valign="top"><img src="shopping_app/screenshot/img7.jpg" width=270 height=500></td>
   </tr>
  </table>
 
