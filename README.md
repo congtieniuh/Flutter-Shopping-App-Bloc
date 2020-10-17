@@ -13,9 +13,9 @@ Shopping app is a design implementaion of [E-commerce App](https://dribbble.com/
     <td>Product cart</td>
   </tr>
   <tr>
-    <td valign="top"><img src="shopping_app/screenshot/img1.jpg" width=270 height=600></td>
-    <td valing="top"><img src="shopping_app/screenshot/img2.jpg" width=270 height=600></td>
-    <td valing="top"><img src="shopping_app/screenshot/img5.jpg" width=270 height=600></td>
+    <td valign="top"><img src="shopping_app/screenshot/img1.jpg" width=270 height=500></td>
+    <td valing="top"><img src="shopping_app/screenshot/img2.jpg" width=270 height=500></td>
+    <td valing="top"><img src="shopping_app/screenshot/img5.jpg" width=270 height=500></td>
   </tr>
   
    <tr>
@@ -25,10 +25,10 @@ Shopping app is a design implementaion of [E-commerce App](https://dribbble.com/
      <td></td>
   </tr>
   <tr>
-    <td valign="top"><img src="shopping_app/screenshot/img3.jpg" width=270 height=600></td>
-    <td valing="top"><img src="shopping_app/screenshot/img4.jpg" width=270 height=600></td>
-    <td valing="top"><img src="shopping_app/screenshot/img6.jpg" width=270 height=600></td>
-     <td valing="top"><img src="shopping_app/screenshot/img7.jpg" width=270 height=600></td>
+    <td valign="top"><img src="shopping_app/screenshot/img3.jpg" width=270 height=500></td>
+    <td valing="top"><img src="shopping_app/screenshot/img4.jpg" width=270 height=500></td>
+    <td valing="top"><img src="shopping_app/screenshot/img6.jpg" width=270 height=500></td>
+     <td valing="top"><img src="shopping_app/screenshot/img7.jpg" width=270 height=500></td>
   </tr>
  </table>
 
