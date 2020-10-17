@@ -7,6 +7,7 @@ import 'package:shopping_app/feature/product_details/bloc/product_details_bloc.d
 import 'package:shopping_app/resources/app_theme.dart';
 import 'package:shopping_app/resources/colors.dart';
 import 'package:shopping_app/route/route_constants.dart';
+import 'package:shopping_app/widget/bottom_dialog.dart';
 
 import 'popup_desc_details.dart';
 
@@ -168,14 +169,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 20,
           ),
           InkWell(
-            onTap: () {
-              showDialog(
+            onTap: () async{
+              await showModalBottomSheet(
                 context: context,
-                builder: (context) {
-                  return DescriptionDetailsDialog(
-                    product: product,
-                  );
-                },
+                elevation: 30,
+                backgroundColor: Colors.transparent,
+                builder: (context) => Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: BottomDialog(
+                    title: product.title,
+                    child: Text('${product.description}'),
+                  ),
+                ),
               );
             },
             child: Text(
@@ -325,6 +330,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
+
+
   onSelectedSize(int index, double size) {
     setState(() {
       _currentIndexSize = index;
@@ -339,3 +346,4 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     context.bloc<ProductDetailsBloc>().add(AddToWishlistEvent(product));
   }
 }
+

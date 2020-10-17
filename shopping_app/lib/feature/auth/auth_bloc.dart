@@ -29,7 +29,7 @@ class AuthBloc {
           email: email, password: password);
       return result.user != null;
     } catch (e) {
-      return null;
+      return false;
     }
   }
 
