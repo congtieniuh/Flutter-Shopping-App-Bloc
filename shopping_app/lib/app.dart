@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shopping_app/localization/app_localization.dart';
+import 'package:shopping_app/localization/language_constants.dart';
 import 'package:shopping_app/route/router.dart';
 
 import 'feature/cart/bloc/cart_bloc.dart';
@@ -22,6 +25,17 @@ class _MyAppState extends State<MyApp> {
   final cartBloc = CartBloc();
   final productDetailsBloc = ProductDetailsBloc();
   final profileBloc = ProfileBloc();
+  Locale _locale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getLocale().then((locale) {
+      setState(() {
+        this._locale = locale;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +64,24 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
             initialRoute: widget.initialRoute,
+            locale: _locale,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRouter.generateRoute,
+            localizationsDelegates: [
+              AppLocalization.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            localeResolutionCallback: (locale, supportedLocales) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+              return supportedLocales.first;
+            },
             theme: ThemeData(
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
