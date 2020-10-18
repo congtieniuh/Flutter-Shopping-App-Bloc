@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_app/feature/credit_card_details/models/credit_card_model.dart';
 import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
@@ -12,6 +13,8 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final formatCurrency = new NumberFormat.simpleCurrency();
+
+  CreditCard resultCreditCard = creditCards[0];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           children: [
             Text(
               'Shipping address',
-              style: textMedium,
+              style: headingText,
             ),
             Card(
               margin: EdgeInsets.only(top: 16),
@@ -67,12 +70,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               children: [
                 Text(
                   'Payment',
-                  style: textMedium,
+                  style: headingText,
                 ),
                 FlatButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RouteConstant.creditCard);
-                    },
+                    onPressed: () async => changePayment(),
                     child: Text(
                       'Change',
                       style: TextStyle(color: Colors.orange),
@@ -88,12 +89,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
-                        R.icon.masterCard,
+                        resultCreditCard != null ? resultCreditCard.image :R.icon.masterCard,
                         width: 30,
                         height: 30,
                       ),
                     )),
-                Text('************')
+                Text(resultCreditCard != null ? resultCreditCard.cardNumber : '')
               ],
             ),
             SizedBox(
@@ -101,7 +102,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
             Text(
               'Delivery method',
-              style: textMedium,
+              style: headingText,
             ),
             SizedBox(
               height: 10,
@@ -113,11 +114,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 deliveryCard(R.icon.ex03),
               ],
             ),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             rowOrderInfo('Order:', 112),
             rowOrderInfo('Delivery:', 112),
             rowOrderInfo('Summary:', 112),
-            SizedBox(height: 16,),
+            SizedBox(
+              height: 16,
+            ),
             _buttonSubmitOrder()
           ],
         ),
@@ -125,14 +130,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget rowOrderInfo(String type, double price){
+  Widget rowOrderInfo(String type, double price) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(type, style: minorText,),
-          Text("${formatCurrency.format(price)}", style: textMedium,)
+          Text(
+            type,
+            style: minorText,
+          ),
+          Text(
+            "${formatCurrency.format(price)}",
+            style: textMedium,
+          )
         ],
       ),
     );
@@ -144,7 +155,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: RaisedButton(
           padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed: () {
             Navigator.popUntil(context, (route) => route.isFirst);
           },
@@ -155,7 +166,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           )),
     );
   }
-
 
   Widget deliveryCard(String icon) {
     return Expanded(
@@ -170,7 +180,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   width: 30,
                   height: 30,
                 ),
-                SizedBox(height: 6,),
+                SizedBox(
+                  height: 6,
+                ),
                 Text(
                   '2-3 days',
                   style: smallText,
@@ -179,5 +191,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
           )),
     );
+  }
+
+  void changePayment()  {
+    Navigator.pushNamed(context, RouteConstant.creditCard).then((value) {
+      setState(() {
+        resultCreditCard = value as CreditCard;
+      });
+    });
   }
 }

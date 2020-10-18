@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shopping_app/feature/credit_card_details/models/credit_card_model.dart';
+import 'package:shopping_app/resources/R.dart';
 
 class CreditCardWidget extends StatelessWidget {
   CreditCardWidget({
@@ -234,7 +235,7 @@ class CreditCardWidget extends StatelessWidget {
     switch (detectCCType(cardNumber)) {
       case CardType.visa:
         icon = Image.asset(
-          'assets/visa.png',
+          R.icon.visaCard,
           height: 64,
           width: 64,
         );
@@ -242,7 +243,7 @@ class CreditCardWidget extends StatelessWidget {
 
       case CardType.americanExpress:
         icon = Image.asset(
-          'assets/amex.png',
+          R.icon.amexCard,
           height: 64,
           width: 64,
         );
@@ -250,7 +251,7 @@ class CreditCardWidget extends StatelessWidget {
 
       case CardType.mastercard:
         icon = Image.asset(
-          'assets/mastercard.png',
+          R.icon.masterCard,
           height: 64,
           width: 64,
         );
@@ -258,7 +259,7 @@ class CreditCardWidget extends StatelessWidget {
 
       case CardType.discover:
         icon = Image.asset(
-          'assets/discover.png',
+          R.icon.discoverCard,
           height: 64,
           width: 64,
         );
@@ -308,7 +309,7 @@ Container getChipImage() {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 16),
     child: Image.asset(
-      'assets/chip.png',
+      R.icon.chip,
       height: 52,
       width: 52,
     ),

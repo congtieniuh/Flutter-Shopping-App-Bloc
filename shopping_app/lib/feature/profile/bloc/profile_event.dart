@@ -10,3 +10,11 @@ class LogoutEvent extends ProfileEvent {
   List<Object> get props => [];
 
 }
+
+class GetCurrentUser extends ProfileEvent {
+
+  @override
+  List<Object> get props => [];
+
+}
+

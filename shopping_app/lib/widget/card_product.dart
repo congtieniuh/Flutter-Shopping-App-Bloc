@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/feature/discover/model/product.dart';
+import 'package:shopping_app/resources/R.dart';
 
 class CardProduct extends StatelessWidget {
   final Product product;
@@ -72,7 +73,7 @@ class CardProduct extends StatelessWidget {
               right: 30,
               child: IconButton(
                   icon: Image.asset(
-                    'assets/icon/right-arrow.png',
+                    R.icon.rightArrow,
                     color: Colors.white,
                   ),
                   onPressed: () {}))

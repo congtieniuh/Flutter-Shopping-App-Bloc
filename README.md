@@ -1,5 +1,5 @@
 
-## flutter_shopping_app [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/Thealphamerc/flutter_ecommerce_app)
+## flutter_shopping_app [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/congtieniuh/Flutter-Shopping-App-Bloc)
 
 
 Shopping app is a design implementaion of [E-commerce App](https://dribbble.com/shots/7174226-Bright-app-UI-Kit) designed by [M A J E D](https://dribbble.com/majed_interactive)

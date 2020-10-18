@@ -147,7 +147,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Image.asset(
-                        'assets/snkr_01.png',
+                        R.icon.snkr01,
                         width: constraints.maxWidth * 0.5,
                         height: constraints.maxHeight * 0.5,
                       ),

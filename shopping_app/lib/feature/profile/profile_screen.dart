@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shopping_app/feature/auth/model/user_app.dart';
 import 'package:shopping_app/feature/profile/bloc/profile_bloc.dart';
 import 'package:shopping_app/resources/app_data.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
+import 'package:shopping_app/widget/loader_wiget.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -16,39 +18,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
   double height;
 
   @override
+  void initState() {
+    super.initState();
+    context.bloc<ProfileBloc>().add(GetCurrentUser());
+  }
+
+  @override
   Widget build(BuildContext context) {
     height = MediaQuery
         .of(context)
         .size
         .height;
-    return BlocListener(
+    return BlocConsumer<ProfileBloc, ProfileState>(
       bloc: context.bloc<ProfileBloc>(),
       listener: (context, state) {
         if (state is LogoutFinished) {
           Navigator.pushReplacementNamed(context, RouteConstant.loginRoute);
         }
-      }, child: Scaffold(
-        appBar: CommonAppBar(title: 'Profile'),
-        body: listFeature()
-    ),);
+      },
+      builder: (context, state) {
+        return Scaffold(
+            appBar: CommonAppBar(title: 'Profile'), body: listFeature(state));
+      },
+    );
   }
 
-  Widget listFeature() {
+  Widget listFeature(ProfileState state) {
+    UserData userData;
+    if (state is GetCurrentUserFinish) {
+      userData = state.userData;
+    }
     return ListView(
       shrinkWrap: true,
       children: [
         Container(
           height: height * 0.3,
           color: Colors.blue,
-          child: Column(
+          child: userData == null
+              ? LoaderPage()
+              : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Huynh Cong Tien',
+                userData.fullName,
                 style: headingTextWhite,
               ),
               Text(
-                'congtien.iuh@gmail.com',
+                userData.email,
                 style: whiteText,
               ),
             ],
@@ -64,8 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 var title = AppSettings.values;
                 return rowFeature(title[index]);
               },
-              separatorBuilder: (BuildContext context, int index) =>
-                  Divider(),
+              separatorBuilder: (BuildContext context, int index) => Divider(),
               itemCount: AppSettings.values.length),
         )
       ],

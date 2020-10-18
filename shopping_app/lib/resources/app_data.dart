@@ -7,9 +7,9 @@ class AppData {
     ShipMethod(
         title: "Free ship", price: 0.0, description: Strings.dummyShipping1),
     ShipMethod(
-        title: "Free ship", price: 0.0, description: Strings.dummyShipping1),
+        title: "Fast ship", price: 15.0, description: Strings.dummyShipping1),
     ShipMethod(
-        title: "Free ship", price: 0.0, description: Strings.dummyShipping1),
+        title: "2 hours", price: 20.0, description: Strings.dummyShipping1),
   ];
 
 

@@ -15,7 +15,6 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -138,7 +137,7 @@ class _CreditCardDetailsScreenState extends State<CreditCardDetailsScreen> {
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, creditCards[_current]);
           },
           color: AppColors.indianRed,
           child: Text(

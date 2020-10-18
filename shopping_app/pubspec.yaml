@@ -47,13 +47,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/snkr_01.png
-    - assets/snkr_02.png
-    - assets/snkr_03.png
+    - assets/images/
     - assets/icon/
-    - assets/visa.png
-    - assets/chip.png
-    - assets/discover.png
-    - assets/mastercard.png
-    - assets/amex.png
-
