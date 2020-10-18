@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:shopping_app/feature/auth/model/user_app.dart';
 import 'package:shopping_app/feature/profile/repository/profile_repository.dart';
-import 'package:shopping_app/feature/profile/repository/profile_repository_firebase.dart';
+import 'package:shopping_app/feature/profile/repository/firebase_profile_repository.dart';
 
 part 'profile_event.dart';
 
@@ -15,7 +15,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileRepository _profileRepository;
 
   ProfileBloc()
-      : _profileRepository = ProfileRepositoryFirebase(),
+      : _profileRepository = FirebaseProfileRepository(),
         super(ProfileInitial());
 
   @override

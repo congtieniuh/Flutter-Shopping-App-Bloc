@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shopping_app/feature/auth/model/user_app.dart';
 import 'package:shopping_app/feature/profile/repository/profile_repository.dart';
 
-class ProfileRepositoryFirebase extends ProfileRepository {
+class FirebaseProfileRepository extends ProfileRepository {
   FirebaseAuth _auth;
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("user");
 
-  ProfileRepositoryFirebase() {
+  FirebaseProfileRepository() {
     _auth = FirebaseAuth.instance;
   }
 
