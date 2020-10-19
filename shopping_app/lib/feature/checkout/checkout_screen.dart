@@ -57,7 +57,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             )),
                       ],
                     ),
-                    Text(Strings.dummyShipping1)
+                    Text(R.strings.dummyShipping1)
                   ],
                 ),
               ),

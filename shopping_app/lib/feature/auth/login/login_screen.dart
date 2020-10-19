@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
@@ -30,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
-      appBar: CommonAppBar(title: Strings.loginTitle),
+      appBar: CommonAppBar(title: R.strings.loginTitle),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -45,10 +46,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 keyboardType: TextInputType.emailAddress,
                 controller: _emailController,
                 validator: (value) {
-                  return value.isEmpty ? Strings.error_msg_email : null;
+                  return value.isEmpty ? R.strings.errorMsgEmail : null;
                 },
                 decoration: InputDecoration(
-                  labelText: Strings.emailLabel,
+                  labelText: R.strings.emailLabel,
                 ),
               ),
               SizedBox(
@@ -58,16 +59,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _passwordController,
                 obscureText: true,
                 validator: (value) {
-                  return value.isEmpty ? Strings.error_msg_pwd : null;
+                  return value.isEmpty ? R.strings.errorMsgPwd : null;
                 },
-                decoration: InputDecoration(labelText: Strings.passwordLabel),
+                decoration: InputDecoration(labelText: R.strings.passwordLabel),
               ),
               SizedBox(
                 height: 20,
               ),
               Align(
                   alignment: Alignment.topRight,
-                  child: Text(Strings.forgotPassword)),
+                  child: Text(R.strings.forgotPassword)),
               SizedBox(
                 height: 70,
               ),
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 color: AppColors.indianRed,
                 child: Text(
-                  Strings.loginTitle,
+                  R.strings.loginTitle,
                   style: whiteText,
                 ),
               ),
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 10,
                 ),
                 Text(
-                  Strings.facebook,
+                  R.strings.facebook,
                   style: whiteText,
                 ),
               ],
@@ -170,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 10,
                 ),
                 Text(
-                  Strings.google,
+                  R.strings.google,
                   style: whiteText,
                 ),
               ],

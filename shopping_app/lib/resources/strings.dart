@@ -1,32 +1,34 @@
+import 'package:shopping_app/localization/app_localization.dart';
+
 class Strings {
-  static var passwordLabel = "Password";
 
-  static var error_msg_pwd = "Please enter password";
-  static var error_msg_cmn = "Field invalid";
+  var passwordLabel = AppLocalization.instance.text('passwordLabel');
 
-  static var error_msg_email = "Please enter Email";
+  var errorMsgPwd = AppLocalization.instance.text('errorMsgPwd');
+  var errorMsgCommon = AppLocalization.instance.text('errorMsgCommon');
 
-  static var emailLabel = "Email";
+  var errorMsgEmail = AppLocalization.instance.text('errorMsgEmail');
 
-  static String forgotPassword = "Forgot password?";
+  var emailLabel = AppLocalization.instance.text('emailLabel');
 
-  static var registerTitle = "Create new account";
+  String forgotPassword = AppLocalization.instance.text('forgotPassword');
 
-  static var firstName = "First Name";
+  var registerTitle = AppLocalization.instance.text('registerTitle');
 
-  static var lastName = "Last Name";
+  var firstName = AppLocalization.instance.text('firstName');
 
-  static String username = "Username";
+  var lastName = AppLocalization.instance.text('lastName');
 
-  static String dob = "Date of birth";
+  String username = AppLocalization.instance.text('username');
 
-  static String dummyShipping1 = "Lor is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown.";
-  Strings._();
+  String dob = AppLocalization.instance.text('dob');
+
+  String dummyShipping1 =  AppLocalization.instance.text('dummyShipping1');
 
   //General
-  static String loginTitle = "Login";
-  static String facebook = "Facebook";
-  static String google = "Google";
+  String loginTitle =  AppLocalization.instance.text('loginTitle');
+  String facebook =  AppLocalization.instance.text('facebook');
+  String google =  AppLocalization.instance.text('google');
 
-  static const String appName = "Boilerplate Project";
+  String appName = AppLocalization.instance.text('appName');
 }

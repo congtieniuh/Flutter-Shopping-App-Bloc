@@ -1,6 +1,17 @@
 {
-  "title": "Localization Demo",
-  "page_one": "Page one",
-  "page_two": "Page two",
-  "page_three": "Page three"
+  "passwordLabel": "Mật khẩu",
+  "errorMsgPwd": "Xin vui lòng nhập mật khẩu",
+  "errorMsgCommon": "Trường không hợp lệ",
+  "errorMsgEmail": "Xin vui lòng nhập nhập email",
+  "emailLabel": "Email",
+  "forgotPassword": "Quên mật khẩu?",
+  "registerTitle": "Tạo mới tài khoản",
+  "firstName": "Họ",
+  "lastName": "Tên",
+  "username": "Tên đăng nhập",
+  "dob": "Ngày sinh",
+  "dummyShipping1": "Lor is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown.",
+  "loginTitle": "Đăng nhập",
+  "facebook": "Facebook",
+  "google": "Google"
 }

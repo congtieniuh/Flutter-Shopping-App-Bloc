@@ -1,15 +1,16 @@
 import 'package:shopping_app/feature/shipping/model/ship_method.dart';
+import 'package:shopping_app/resources/R.dart';
 
 import 'strings.dart';
 
 class AppData {
   static List<ShipMethod> shipMethods = [
     ShipMethod(
-        title: "Free ship", price: 0.0, description: Strings.dummyShipping1),
+        title: "Free ship", price: 0.0, description:  R.strings.dummyShipping1),
     ShipMethod(
-        title: "Fast ship", price: 15.0, description: Strings.dummyShipping1),
+        title: "Fast ship", price: 15.0, description: R.strings.dummyShipping1),
     ShipMethod(
-        title: "2 hours", price: 20.0, description: Strings.dummyShipping1),
+        title: "2 hours", price: 20.0, description:  R.strings.dummyShipping1),
   ];
 
 

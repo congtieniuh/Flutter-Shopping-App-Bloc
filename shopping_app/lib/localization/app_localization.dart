@@ -4,34 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalization {
-  AppLocalization(this.locale);
+  static final AppLocalization _singleton = new AppLocalization._internal();
 
-  final Locale locale;
-  static AppLocalization of(BuildContext context) {
-    return Localizations.of<AppLocalization>(context, AppLocalization);
-  }
+  AppLocalization._internal();
+
+  static AppLocalization get instance => _singleton;
 
   Map<String, String> _localizedValues;
 
-  Future<void> load() async {
-    String jsonStringValues =
-    await rootBundle.loadString('lib/lang/${locale.languageCode}.json');
+  Future<AppLocalization> load(Locale locale) async {
+    String jsonStringValues = await rootBundle
+        .loadString('assets/locale/localization_${locale.languageCode}.json');
     Map<String, dynamic> mappedJson = json.decode(jsonStringValues);
     _localizedValues =
         mappedJson.map((key, value) => MapEntry(key, value.toString()));
-  }
 
-  String translate(String key) {
-    return _localizedValues[key];
+    return this;
   }
 
   // static member to have simple access to the delegate from Material App
   static const LocalizationsDelegate<AppLocalization> delegate =
-  _AppLocalizationsDelegate();
+      _AppLocalizationsDelegate();
+
+  String text(String key) {
+    return _localizedValues[key] ?? "$key not found";
+  }
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalization> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -41,11 +41,9 @@ class _AppLocalizationsDelegate
 
   @override
   Future<AppLocalization> load(Locale locale) async {
-    AppLocalization localization = new AppLocalization(locale);
-    await localization.load();
-    return localization;
+    return AppLocalization.instance.load(locale);
   }
 
   @override
-  bool shouldReload(LocalizationsDelegate<AppLocalization> old) => false;
+  bool shouldReload(LocalizationsDelegate<AppLocalization> old) => true;
 }

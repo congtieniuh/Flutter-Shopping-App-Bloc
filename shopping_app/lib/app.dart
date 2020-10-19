@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shopping_app/localization/app_localization.dart';
-import 'package:shopping_app/localization/language_constants.dart';
 import 'package:shopping_app/route/router.dart';
 
 import 'feature/cart/bloc/cart_bloc.dart';
@@ -25,16 +24,10 @@ class _MyAppState extends State<MyApp> {
   final cartBloc = CartBloc();
   final productDetailsBloc = ProductDetailsBloc();
   final profileBloc = ProfileBloc();
-  Locale _locale;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    getLocale().then((locale) {
-      setState(() {
-        this._locale = locale;
-      });
-    });
   }
 
   @override
@@ -64,9 +57,13 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
             initialRoute: widget.initialRoute,
-            locale: _locale,
             debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRouter.generateRoute,
+            locale: Locale('en', ''),
+            supportedLocales: [
+              const Locale('en', ''), // English
+              const Locale('vi', ''), // Vietnamese
+            ],
             localizationsDelegates: [
               AppLocalization.delegate,
               GlobalMaterialLocalizations.delegate,

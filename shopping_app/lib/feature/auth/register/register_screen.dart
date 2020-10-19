@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/feature/auth/model/user_app.dart';
+import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/widget/appbar.dart';
 
@@ -37,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
-        title: Center(child: Text(Strings.registerTitle, style: TextStyle(color: Colors.black),),),
+        title: Center(child: Text(R.strings.registerTitle, style: TextStyle(color: Colors.black),),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,13 +51,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                        child: _buildTextFormField(Strings.firstName,
+                        child: _buildTextFormField(R.strings.firstName,
                             _firstNameController, TextInputType.text)),
                     SizedBox(
                       width: 10,
                     ),
                     Expanded(
-                        child: _buildTextFormField(Strings.lastName,
+                        child: _buildTextFormField(R.strings.lastName,
                             _lastNameController, TextInputType.text)),
                   ],
                 ),
@@ -65,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 10,
               ),
               _buildTextFormField(
-                  Strings.username, _usernameController, TextInputType.text),
+                  R.strings.username, _usernameController, TextInputType.text),
               SizedBox(
                 height: 10,
               ),
@@ -73,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 readOnly: true,
                 controller: _dobController,
                 decoration: InputDecoration(
-                  labelText: Strings.dob,
+                  labelText: R.strings.dob,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 ),
@@ -82,12 +83,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: 10,
               ),
-              _buildTextFormField(Strings.emailLabel, _emailController,
+              _buildTextFormField(R.strings.emailLabel, _emailController,
                   TextInputType.emailAddress),
               SizedBox(
                 height: 10,
               ),
-              _buildPasswordField(Strings.passwordLabel, _passwordController),
+              _buildPasswordField(R.strings.passwordLabel, _passwordController),
               SizedBox(
                 height: 20,
               ),
@@ -114,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
                 color: AppColors.indianRed,
                 child: Text(
-                  Strings.registerTitle,
+                  R.strings.registerTitle,
                   style: whiteText,
                 ),
               ),
@@ -154,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: controller,
       keyboardType: inputType,
       validator: (value) {
-        return value.isEmpty ? Strings.error_msg_cmn : null;
+        return value.isEmpty ? R.strings.errorMsgCommon : null;
       },
       decoration: InputDecoration(
         labelText: title,
@@ -170,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,
       validator: (value) {
-        return value.isEmpty ? Strings.error_msg_cmn : null;
+        return value.isEmpty ? R.strings.errorMsgCommon : null;
       },
       decoration: InputDecoration(
         labelText: title,
