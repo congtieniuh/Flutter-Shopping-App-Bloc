@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shopping_app/feature/auth/login/bloc/login_bloc.dart';
 import 'package:shopping_app/localization/app_localization.dart';
 import 'package:shopping_app/route/router.dart';
 
@@ -24,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   final cartBloc = CartBloc();
   final productDetailsBloc = ProductDetailsBloc();
   final profileBloc = ProfileBloc();
+  final loginBloc = LoginBloc();
 
   @override
   void didChangeDependencies() {
@@ -52,6 +54,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (context) {
               return productDetailsBloc;
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return loginBloc;
             },
           ),
         ],
@@ -92,6 +99,7 @@ class _MyAppState extends State<MyApp> {
     cartBloc.close();
     productDetailsBloc.close();
     profileBloc.close();
+    loginBloc.close();
     super.dispose();
   }
 }

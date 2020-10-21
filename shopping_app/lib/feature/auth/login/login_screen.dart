@@ -1,11 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shopping_app/feature/auth/login/bloc/login_bloc.dart';
 import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
-import '../auth_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,17 +15,63 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  AuthBloc _authService;
+  LoginBloc _loginBloc;
 
-  var _emailController = TextEditingController();
-  var _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _authService = AuthBloc();
+    _loginBloc = context.bloc<LoginBloc>();
+  }
+
+  Widget emailField() {
+    return StreamBuilder(
+      stream: _loginBloc.emailStream,
+      builder: (context, snapshot) => TextFormField(
+        onChanged: _loginBloc.changeEmail,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          errorText: snapshot.error,
+          labelText: R.strings.emailLabel,
+        ),
+      ),
+    );
+  }
+
+  Widget passwordField() {
+    return StreamBuilder(
+      stream: _loginBloc.passwordStream,
+      builder: (context, snapshot) => TextFormField(
+        onChanged: _loginBloc.changePassword,
+        obscureText: true,
+        decoration: InputDecoration(
+            errorText: snapshot.error, labelText: R.strings.passwordLabel),
+      ),
+    );
+  }
+
+  Widget submitLogin() {
+    return StreamBuilder(
+      stream: _loginBloc.submitValidStream,
+      builder: (context, snapshot) => RaisedButton(
+        padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        onPressed: (){
+          if(snapshot.hasData){
+            Navigator.pushNamedAndRemoveUntil(
+                context, RouteConstant.homeRoute, (r) => false);
+          } else {
+            createSnackBar("Currently logged");
+          }
+        },
+        color: AppColors.indianRed,
+        child: Text(
+          R.strings.loginTitle,
+          style: whiteText,
+        ),
+      ),
+    );
   }
 
   @override
@@ -35,34 +83,17 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
                 height: 30.0,
               ),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: _emailController,
-                validator: (value) {
-                  return value.isEmpty ? R.strings.errorMsgEmail : null;
-                },
-                decoration: InputDecoration(
-                  labelText: R.strings.emailLabel,
-                ),
-              ),
+              emailField(),
               SizedBox(
                 height: 15.0,
               ),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                validator: (value) {
-                  return value.isEmpty ? R.strings.errorMsgPwd : null;
-                },
-                decoration: InputDecoration(labelText: R.strings.passwordLabel),
-              ),
+              passwordField(),
               SizedBox(
                 height: 20,
               ),
@@ -72,19 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 70,
               ),
-              RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)),
-                onPressed: () async {
-                  login();
-                },
-                color: AppColors.indianRed,
-                child: Text(
-                  R.strings.loginTitle,
-                  style: whiteText,
-                ),
-              ),
+              submitLogin(),
               SizedBox(
                 height: 18.0,
               ),
@@ -94,18 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: 'Don have account? ',
                         style: minorText,
                         children: [
-                          TextSpan(
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushNamed(
-                                      context, RouteConstant.registerRoute);
-                                },
-                              text: 'Register',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline))
-                        ])),
+                      TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(
+                                  context, RouteConstant.registerRoute);
+                            },
+                          text: 'Register',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline))
+                    ])),
               ),
               SizedBox(
                 height: 50.0,
@@ -182,29 +201,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login() async{
-
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-
-      var result = await _authService.signIn(
-          _emailController.text, _passwordController.text);
-      if (result) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, RouteConstant.homeRoute, (r) => false);
-      } else {
-        createSnackBar('Login failed');
-      }
-    } else {
-      createSnackBar('Login failed');
-    }
-  }
+  void login() async {}
 
   void createSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-        new SnackBar(
-            content: new Text(message)
-        )
-    );
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(message)));
   }
 }
