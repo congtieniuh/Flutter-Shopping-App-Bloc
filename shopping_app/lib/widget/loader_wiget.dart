@@ -13,7 +13,6 @@ class LoaderPage extends StatefulWidget {
 class _LoaderPageState extends State<LoaderPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    double _height = widget.hightDiv == null ? 3 : widget.hightDiv;
     return Container(
       child: Center(
           child: Container(

@@ -20,7 +20,7 @@ class FirebaseProfileRepository extends ProfileRepository {
   @override
   Future<UserData> getUserInfo() async {
     if (_auth.currentUser == null) return null;
-
+    print(_auth.currentUser.uid);
     var userFirebase = await userCollection.doc(_auth.currentUser.uid).get();
     return _mapDocumentToUserData(userFirebase);
   }

@@ -56,7 +56,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       return element.productType == event.productType &&
           element.category == event.category;
     }).toList();
-
+    //_discoverRepository.addListProduct(demoProducts);
     yield DiscoverLoadFinished(products: filterList, isSuccess: true);
   }
 

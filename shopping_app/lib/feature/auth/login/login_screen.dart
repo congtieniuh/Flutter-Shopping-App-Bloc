@@ -8,6 +8,7 @@ import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/widget/loader_wiget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -52,91 +53,110 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget submitLogin() {
-    return StreamBuilder(
-      stream: _loginBloc.submitValidStream,
-      builder: (context, snapshot) => RaisedButton(
-        padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        onPressed: (){
-          if(snapshot.hasData){
+    return BlocConsumer(
+      bloc: context.bloc<LoginBloc>(),
+      listener: (context, state) {
+        if (state is LoginFinishedState) {
+          if (state.isSuccess) {
             Navigator.pushNamedAndRemoveUntil(
                 context, RouteConstant.homeRoute, (r) => false);
           } else {
-            createSnackBar("Currently logged");
+            createSnackBar('Login Failed');
           }
-        },
-        color: AppColors.indianRed,
-        child: Text(
-          R.strings.loginTitle,
-          style: whiteText,
-        ),
-      ),
+        }
+      },
+      builder: (context, state) {
+        return StreamBuilder<bool>(
+          stream: _loginBloc.submitValidStream,
+          builder: (context, snapshot) => state is LoginLoadingState
+              ? LoaderPage()
+              : RaisedButton(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
+                  onPressed: () {
+                    if (snapshot.hasData && snapshot.data) {
+                      context.bloc<LoginBloc>().add(Submitted());
+                    } else {
+                      createSnackBar("Currently logged");
+                    }
+                  },
+                  color: AppColors.indianRed,
+                  child: Text(
+                    R.strings.loginTitle,
+                    style: whiteText,
+                  ),
+                ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
-      appBar: CommonAppBar(title: R.strings.loginTitle),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: 30.0,
-              ),
-              emailField(),
-              SizedBox(
-                height: 15.0,
-              ),
-              passwordField(),
-              SizedBox(
-                height: 20,
-              ),
-              Align(
-                  alignment: Alignment.topRight,
-                  child: Text(R.strings.forgotPassword)),
-              SizedBox(
-                height: 70,
-              ),
-              submitLogin(),
-              SizedBox(
-                height: 18.0,
-              ),
-              Center(
-                child: RichText(
-                    text: TextSpan(
-                        text: 'Don have account? ',
-                        style: minorText,
-                        children: [
-                      TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.pushNamed(
-                                  context, RouteConstant.registerRoute);
-                            },
-                          text: 'Register',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline))
-                    ])),
-              ),
-              SizedBox(
-                height: 50.0,
-              ),
-              Center(child: Text('Or Login with')),
-              SizedBox(
-                height: 30.0,
-              ),
-              _loginWithSocicalNetwork(),
-            ],
+        key: _scaffoldKey,
+        resizeToAvoidBottomPadding: false,
+        appBar: CommonAppBar(title: R.strings.loginTitle),
+        body: bodyContent());
+  }
+
+  Widget bodyContent() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 30.0,
           ),
-        ),
+          emailField(),
+          SizedBox(
+            height: 15.0,
+          ),
+          passwordField(),
+          SizedBox(
+            height: 20,
+          ),
+          Align(
+              alignment: Alignment.topRight,
+              child: Text(R.strings.forgotPassword)),
+          SizedBox(
+            height: 70,
+          ),
+          submitLogin(),
+          SizedBox(
+            height: 18.0,
+          ),
+          Center(
+            child: RichText(
+                text: TextSpan(
+                    text: 'Don have account? ',
+                    style: minorText,
+                    children: [
+                  TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.pushNamed(
+                              context, RouteConstant.registerRoute);
+                        },
+                      text: 'Register',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline))
+                ])),
+          ),
+          SizedBox(
+            height: 50.0,
+          ),
+          Center(child: Text('Or Login with')),
+          SizedBox(
+            height: 30.0,
+          ),
+          _loginWithSocicalNetwork(),
+        ],
       ),
     );
   }
