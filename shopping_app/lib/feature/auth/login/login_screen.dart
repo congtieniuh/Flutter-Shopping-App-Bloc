@@ -1,14 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shopping_app/feature/auth/login/bloc/login_bloc.dart';
 import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
 import 'package:shopping_app/route/route_constants.dart';
 import 'package:shopping_app/widget/appbar.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_app/widget/loader_wiget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,90 +14,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginBloc _loginBloc;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _loginBloc = context.bloc<LoginBloc>();
-  }
-
-  Widget emailField() {
-    return StreamBuilder(
-      stream: _loginBloc.emailStream,
-      builder: (context, snapshot) => TextFormField(
-        onChanged: _loginBloc.changeEmail,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          errorText: snapshot.error,
-          labelText: R.strings.emailLabel,
-        ),
-      ),
-    );
-  }
-
-  Widget passwordField() {
-    return StreamBuilder(
-      stream: _loginBloc.passwordStream,
-      builder: (context, snapshot) => TextFormField(
-        onChanged: _loginBloc.changePassword,
-        obscureText: true,
-        decoration: InputDecoration(
-            errorText: snapshot.error, labelText: R.strings.passwordLabel),
-      ),
-    );
-  }
-
-  Widget submitLogin() {
-    return BlocConsumer(
-      bloc: context.bloc<LoginBloc>(),
-      listener: (context, state) {
-        if (state is LoginFinishedState) {
-          if (state.isSuccess) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, RouteConstant.homeRoute, (r) => false);
-          } else {
-            createSnackBar('Login Failed');
-          }
-        }
-      },
-      builder: (context, state) {
-        return StreamBuilder<bool>(
-          stream: _loginBloc.submitValidStream,
-          builder: (context, snapshot) => state is LoginLoadingState
-              ? LoaderPage()
-              : RaisedButton(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0)),
-                  onPressed: () {
-                    if (snapshot.hasData && snapshot.data) {
-                      context.bloc<LoginBloc>().add(Submitted());
-                    } else {
-                      createSnackBar("Currently logged");
-                    }
-                  },
-                  color: AppColors.indianRed,
-                  child: Text(
-                    R.strings.loginTitle,
-                    style: whiteText,
-                  ),
-                ),
-        );
-      },
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        resizeToAvoidBottomPadding: false,
-        appBar: CommonAppBar(title: R.strings.loginTitle),
-        body: bodyContent());
+      resizeToAvoidBottomPadding: false,
+      appBar: CommonAppBar(title: R.strings.loginTitle),
+      body: bodyContent(),
+    );
   }
 
   Widget bodyContent() {
@@ -111,11 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: 30.0,
           ),
-          emailField(),
+          _EmailInput(),
           SizedBox(
             height: 15.0,
           ),
-          passwordField(),
+          _PasswordInput(),
           SizedBox(
             height: 20,
           ),
@@ -125,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: 70,
           ),
-          submitLogin(),
+          _SubmitLogin(),
           SizedBox(
             height: 18.0,
           ),
@@ -226,5 +154,85 @@ class _LoginScreenState extends State<LoginScreen> {
   void createSnackBar(String message) {
     _scaffoldKey.currentState
         .showSnackBar(new SnackBar(content: new Text(message)));
+  }
+}
+
+class _EmailInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) {
+        return previous.email != current.email;
+      },
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.email,
+          onChanged: (value) =>
+              context.bloc<LoginBloc>().add(EmailChanged(email: value)),
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+              labelText: 'Email',
+              helperText: '',
+              icon: const Icon(Icons.email),
+              errorText: state.isEmailInvalid != null && state.isEmailInvalid
+                  ? 'invalid email'
+                  : null),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.password != current.password,
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.password,
+          onChanged: (value) =>
+              context.bloc<LoginBloc>().add(PasswordChanged(password: value)),
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            helperText: '',
+            icon: const Icon(Icons.lock),
+            errorText: state.isPasswordInvalid != null && state.isPasswordInvalid
+                ? 'invalid password'
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SubmitLogin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener(
+        bloc: context.bloc<LoginBloc>(),
+        listener: (context, state) {
+          if (state is LoginFinishedState) {
+            if (state.isSuccess) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteConstant.homeRoute, (r) => false);
+            }
+          }
+        },
+        child: RaisedButton(
+          padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          onPressed: () {
+            context.bloc<LoginBloc>().add(Submitted());
+          },
+          color: AppColors.indianRed,
+          child: Text(
+            R.strings.loginTitle,
+            style: whiteText,
+          ),
+        ));
   }
 }

@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shopping_app/feature/auth/helper/validators.dart';
 import 'package:shopping_app/feature/auth/login/repository/repository.dart';
+import 'package:shopping_app/feature/auth/model/user_app.dart';
 
 part 'login_event.dart';
 
@@ -16,73 +17,46 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc()
       : _loginRepository = FirebaseLoginRepository(),
-        super(LoginEmptyState());
-
-  final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-
-  Stream<String> get emailStream =>
-      _emailController.stream.transform(Validators.validateEmail);
-
-  Stream<String> get passwordStream =>
-      _passwordController.stream.transform(Validators.validatePassword);
-
-  Stream<bool> get submitValidStream =>
-      Rx.combineLatest2(
-          emailStream,
-          passwordStream,
-              (String email, String password) =>
-          Validators.isValidEmail(email) && Validators.isValidPassword(password)
-              ? true
-              : false);
-
-  // change data
-  Function(String) get changeEmail => _emailController.sink.add;
-
-  Function(String) get changePassword => _passwordController.sink.add;
+        super(LoginState());
 
   @override
-  Stream<LoginState> mapEventToState(LoginEvent event,) async* {
+  Stream<LoginState> mapEventToState(
+    LoginEvent event,
+  ) async* {
     if (event is EmailChanged) {
       yield* _mapEmailChangedToState(event.email);
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is Submitted) {
-      yield* _mapSubmittedLoginToState(
-          email: _emailController.value, password: _passwordController.value);
+      yield* _mapSubmittedLoginToState();
     }
   }
 
   Stream<LoginState> _mapEmailChangedToState(String email) async* {
-    yield state.update(isEmailValid: Validators.isValidEmail(email));
+    yield state.copyWith(
+        email: email, isEmailInvalid: !Validators.isValidEmail(email));
   }
 
   Stream<LoginState> _mapPasswordChangedToState(String password) async* {
-    yield state.update(isPasswordValid: Validators.isValidPassword(password));
+    yield state.copyWith(
+        password: password,
+        isPasswordInvalid: !Validators.isValidPassword(password));
   }
 
-  Stream<LoginState> _mapSubmittedLoginToState({
-    String email,
-    String password,
-  }) async* {
-    yield LoginLoadingState();
-    try {
-      if (await _loginRepository.signIn(email, password)) {
-        yield LoginFinishedState(isSuccess: true);
-      } else {
+  Stream<LoginState> _mapSubmittedLoginToState() async* {
+    if (state.isEmailInvalid == false && state.isPasswordInvalid == false) {
+      try {
+        if (await _loginRepository.signIn(state.email, state.password)) {
+          yield LoginFinishedState(isSuccess: true);
+        } else {
+          yield LoginFinishedState(isSuccess: false);
+        }
+      } on Exception catch (e) {
+        print(e);
         yield LoginFinishedState(isSuccess: false);
       }
-    } on Exception catch (e) {
-      print(e);
+    } else {
       yield LoginFinishedState(isSuccess: false);
     }
-  }
-
-  @override
-  Future<void> close() {
-    _passwordController.close();
-    _emailController.close();
-
-    return super.close();
   }
 }

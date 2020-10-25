@@ -1,57 +1,38 @@
 part of 'login_bloc.dart';
 
 class LoginState extends Equatable {
-  final bool isEmailValid;
-  final bool isPasswordValid;
-  final bool isSubmitting;
-  final bool isSuccess;
-  final bool isFailure;
+  final bool isEmailInvalid;
+  final bool isPasswordInvalid;
+  final String email;
+  final String password;
 
-  bool get isFormValid => isEmailValid && isPasswordValid;
+  bool get isFormValid => isEmailInvalid && isPasswordInvalid;
 
   LoginState({
-    @required this.isEmailValid,
-    @required this.isPasswordValid,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
+     this.isEmailInvalid,
+     this.isPasswordInvalid,
+     this.email,
+     this.password,
   });
 
-  LoginState update({
-    bool isEmailValid,
-    bool isPasswordValid,
-  }) {
-    return copyWith(
-      isEmailValid: isEmailValid,
-      isPasswordValid: isPasswordValid,
-      isSubmitting: false,
-      isSuccess: false,
-      isFailure: false,
-    );
-  }
 
-  LoginState copyWith({
-    bool isEmailValid,
-    bool isPasswordValid,
-    bool isSubmitEnabled,
-    bool isSubmitting,
-    bool isSuccess,
-    bool isFailure,
-  }) {
+  LoginState copyWith(
+      {bool isEmailInvalid,
+      bool isPasswordInvalid,
+      String email,
+      String password}) {
     return LoginState(
-      isEmailValid: isEmailValid ?? this.isEmailValid,
-      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
-      isSubmitting: isSubmitting ?? this.isSubmitting,
-      isSuccess: isSuccess ?? this.isSuccess,
-      isFailure: isFailure ?? this.isFailure,
+      isEmailInvalid: isEmailInvalid ?? this.isEmailInvalid,
+      isPasswordInvalid: isPasswordInvalid ?? this.isPasswordInvalid,
+      email: email ?? this.email,
+      password: password ?? this.password,
     );
   }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [isEmailInvalid, isPasswordInvalid, email, password];
 }
 
-class LoginEmptyState extends LoginState {}
 
 class LoginLoadingState extends LoginState {}
 

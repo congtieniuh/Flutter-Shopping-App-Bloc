@@ -22,10 +22,12 @@ class FirebaseLoginRepository extends LoginRepository{
   @override
   Future<bool> signIn(String email, String password) async {
     try {
+      print('$email - $password');
       var result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       return result.user != null;
-    } catch (e) {
+    } on Exception catch(e) {
+      print(e);
       return false;
     }
   }

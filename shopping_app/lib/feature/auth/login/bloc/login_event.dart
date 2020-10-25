@@ -13,6 +13,9 @@ class EmailChanged extends LoginEvent {
 
   @override
   String toString() => 'EmailChanged { email :$email }';
+
+  @override
+  List<Object> get props => [email];
 }
 
 
@@ -23,6 +26,9 @@ class PasswordChanged extends LoginEvent {
 
   @override
   String toString() => 'EmailChanged { email :$password }';
+
+  @override
+  List<Object> get props => [password];
 }
 
 

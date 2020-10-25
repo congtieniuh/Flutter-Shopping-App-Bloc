@@ -25,3 +25,12 @@ class UserData {
     return "$firstname $lastname";
   }
 }
+class Credential {
+  final String email;
+  final String password;
+
+  const Credential({this.email, this.password});
+
+  @override
+  String toString() => 'Credential{email: $email, password: $password}';
+}
