@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/feature/auth/model/user_app.dart';
 import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
-import 'package:shopping_app/widget/appbar.dart';
 
-import '../auth_bloc.dart';
+import 'register_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
+RegisterBloc _registerBloc = RegisterBloc();
+
 class _RegisterScreenState extends State<RegisterScreen> {
-  AuthBloc _authService;
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _dobController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _authService = AuthBloc();
   }
 
   @override
@@ -38,99 +29,154 @@ class _RegisterScreenState extends State<RegisterScreen> {
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
-        title: Center(child: Text(R.strings.registerTitle, style: TextStyle(color: Colors.black),),),
+        title: Center(
+          child: Text(
+            R.strings.registerTitle,
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                        child: _buildTextFormField(R.strings.firstName,
-                            _firstNameController, TextInputType.text)),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: _buildTextFormField(R.strings.lastName,
-                            _lastNameController, TextInputType.text)),
-                  ],
-                ),
+        child: ListView(
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(child: _FirstNameInput()),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(child: _LastNameNameInput()),
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              _buildTextFormField(
-                  R.strings.username, _usernameController, TextInputType.text),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                readOnly: true,
-                controller: _dobController,
-                decoration: InputDecoration(
-                  labelText: R.strings.dob,
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                ),
-                onTap: () => _selectDate(context),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              _buildTextFormField(R.strings.emailLabel, _emailController,
-                  TextInputType.emailAddress),
-              SizedBox(
-                height: 10,
-              ),
-              _buildPasswordField(R.strings.passwordLabel, _passwordController),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)),
-                onPressed: () async {
-                  if(_formKey.currentState.validate()){
-                    _formKey.currentState.save();
-
-                    UserData userData = UserData()
-                      ..firstname = _firstNameController.text
-                      ..lastname = _lastNameController.text
-                      ..dob = _dobController.text
-                      ..username = _usernameController.text
-                      ..email = _emailController.text
-                      ..password = _passwordController.text;
-
-                    await _authService.register(userData);
-                  } else {
-                    createSnackBar('Something went wrong');
-                  }
-                },
-                color: AppColors.indianRed,
-                child: Text(
-                  R.strings.registerTitle,
-                  style: whiteText,
-                ),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            _DobInput(),
+            SizedBox(
+              height: 10,
+            ),
+            _EmailInput(),
+            SizedBox(
+              height: 10,
+            ),
+            _PasswordInput(),
+            SizedBox(
+              height: 20,
+            ),
+            _SubmitRegister(),
+          ],
         ),
       ),
     );
   }
 
   void createSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-        new SnackBar(
-            content: new Text(message)
-        )
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(message)));
+  }
+}
+
+class _SubmitRegister extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<bool>(
+      stream: _registerBloc.validateResult$,
+      builder: (context, snapshot) => RaisedButton(
+        padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        onPressed: () async {
+          if (snapshot.data != null && snapshot.data) {
+            _registerBloc.register().then((success) => {
+                  if (success) {Navigator.pop(context)}
+                });
+          } else {
+            print('Register failed');
+          }
+        },
+        color: AppColors.indianRed,
+        child: Text(
+          R.strings.registerTitle,
+          style: whiteText,
+        ),
+      ),
+    );
+  }
+}
+
+class _FirstNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<bool>(
+      stream: _registerBloc.firstName$,
+      builder: (context, snapshot) {
+        return TextFormField(
+          onChanged: _registerBloc.onFirstNameChanged,
+          decoration: InputDecoration(
+              labelText: 'FirstName',
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              errorText: snapshot.data != null && !snapshot.data
+                  ? 'Required field'
+                  : null),
+        );
+      },
+    );
+  }
+}
+
+class _LastNameNameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: _registerBloc.lastName$,
+      builder: (context, snapshot) {
+        return TextFormField(
+          onChanged: _registerBloc.onLastNameChanged,
+          decoration: InputDecoration(
+              labelText: 'LastName',
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              errorText: snapshot.data != null && !snapshot.data
+                  ? 'Required field'
+                  : null),
+        );
+      },
+    );
+  }
+}
+
+class _DobInput extends StatefulWidget {
+  @override
+  __DobInputState createState() => __DobInputState();
+}
+
+class __DobInputState extends State<_DobInput> {
+  var _dobController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<bool>(
+      stream: _registerBloc.dob$,
+      builder: (context, snapshot) {
+        return TextFormField(
+          controller: _dobController,
+          onChanged: _registerBloc.onDobChanged,
+          readOnly: true,
+          decoration: InputDecoration(
+            labelText: R.strings.dob,
+            border: OutlineInputBorder(),
+            errorText: snapshot.data != null && !snapshot.data
+                ? 'Required field'
+                : null,
+            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          ),
+          onTap: () => _selectDate(context),
+        );
+      },
     );
   }
 
@@ -142,41 +188,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
         initialDate: selectedDate,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
         _dobController.text = selectedDate.toString();
       });
+    }
   }
+}
 
-  Widget _buildTextFormField(
-      String title, TextEditingController controller, TextInputType inputType) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: inputType,
-      validator: (value) {
-        return value.isEmpty ? R.strings.errorMsgCommon : null;
-      },
-      decoration: InputDecoration(
-        labelText: title,
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+class _EmailInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: _registerBloc.email$,
+      builder: (context, snapshot) => TextFormField(
+        onChanged: _registerBloc.onEmailChanged,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            labelText: 'Email',
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            errorText: snapshot.data != null && !snapshot.data
+                ? 'Enter invalid email address'
+                : null),
       ),
     );
   }
+}
 
-  Widget _buildPasswordField(String title, TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      obscureText: true,
-      keyboardType: TextInputType.visiblePassword,
-      validator: (value) {
-        return value.isEmpty ? R.strings.errorMsgCommon : null;
-      },
-      decoration: InputDecoration(
-        labelText: title,
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+class _PasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: _registerBloc.password$,
+      builder: (context, snapshot) => TextFormField(
+        onChanged: _registerBloc.onPasswordChanged,
+        obscureText: true,
+        keyboardType: TextInputType.visiblePassword,
+        decoration: InputDecoration(
+            labelText: 'Password',
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            errorText: snapshot.data != null && !snapshot.data
+                ? 'Invalid password, please enter more than 4 characters'
+                : null),
       ),
     );
   }

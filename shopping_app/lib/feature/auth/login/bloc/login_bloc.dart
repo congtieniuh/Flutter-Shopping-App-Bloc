@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shopping_app/feature/auth/helper/validators.dart';
+import 'package:shopping_app/feature/auth/helper/validators_transformer.dart';
 import 'package:shopping_app/feature/auth/login/repository/repository.dart';
 import 'package:shopping_app/feature/auth/model/user_app.dart';
 
@@ -34,13 +34,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapEmailChangedToState(String email) async* {
     yield state.copyWith(
-        email: email, isEmailInvalid: !Validators.isValidEmail(email));
+        email: email, isEmailInvalid: !ValidatorsTransformer.isValidEmail(email));
   }
 
   Stream<LoginState> _mapPasswordChangedToState(String password) async* {
     yield state.copyWith(
         password: password,
-        isPasswordInvalid: !Validators.isValidPassword(password));
+        isPasswordInvalid: !ValidatorsTransformer.isValidPassword(password));
   }
 
   Stream<LoginState> _mapSubmittedLoginToState() async* {
