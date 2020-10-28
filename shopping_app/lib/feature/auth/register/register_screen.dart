@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/resources/R.dart';
 import 'package:shopping_app/resources/resources.dart';
+import 'package:shopping_app/route/route_constants.dart';
+import 'package:shopping_app/widget/bottom_dialog.dart';
+import 'package:shopping_app/widget/loader_wiget.dart';
 
 import 'register_bloc.dart';
 
@@ -83,26 +86,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
 class _SubmitRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: _registerBloc.validateResult$,
-      builder: (context, snapshot) => RaisedButton(
-        padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        onPressed: () async {
-          if (snapshot.data != null && snapshot.data) {
-            _registerBloc.register().then((success) => {
-                  if (success) {Navigator.pop(context)}
+    return FutureBuilder<bool>(
+      future: _registerBloc.register(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return LoaderPage();
+        }
+
+        return StreamBuilder<bool>(
+          stream: _registerBloc.validateResult$,
+          builder: (context, snapshot) => RaisedButton(
+            padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            onPressed: () async {
+              if (snapshot.data != null && snapshot.data) {
+
+                showModalBottomSheet(
+                  context: context,
+                  elevation: 30,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Center(child: LoaderPage())
+                  ),
+                );
+
+
+                _registerBloc.register().then((success) {
+
+                  if (success) {
+                    Navigator.pushReplacementNamed(context, RouteConstant.loginRoute);
+                  }
                 });
-          } else {
-            print('Register failed');
-          }
-        },
-        color: AppColors.indianRed,
-        child: Text(
-          R.strings.registerTitle,
-          style: whiteText,
-        ),
-      ),
+
+              } else {
+                print('Register failed');
+              }
+            },
+            color: AppColors.indianRed,
+            child: Text(
+              R.strings.registerTitle,
+              style: whiteText,
+            ),
+          ),
+        );
+      },
     );
   }
 }
