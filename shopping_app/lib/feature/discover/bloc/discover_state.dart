@@ -16,7 +16,7 @@ class DiscoverLoadFinished extends DiscoverState {
   DiscoverLoadFinished({this.products = const [], this.isSuccess = false});
 
   @override
-  List<Object> get props => [products, isSuccess];
+  List<Object> get props => [products.hashCode, isSuccess];
 
   @override
   String toString() {
@@ -30,7 +30,7 @@ class WishlistLoadFinished extends DiscoverState {
   WishlistLoadFinished({this.products = const [], this.isSuccess = false});
 
   @override
-  List<Object> get props => [products, isSuccess];
+  List<Object> get props => [products.hashCode, isSuccess];
 
   @override
   String toString() {

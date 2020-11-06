@@ -1,7 +1,7 @@
 import 'package:shopping_app/feature/cart/models/cart_item.dart';
 
 class Cart {
-  List<CartItem> listCartItem = new List<CartItem>();
+  List<CartItem> listCartItem = List<CartItem>();
 
   Cart(this.listCartItem);
 

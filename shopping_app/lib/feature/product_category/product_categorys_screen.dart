@@ -19,7 +19,7 @@ class ProductCategoryScreen extends StatefulWidget {
 }
 
 class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
-  final formatCurrency = new NumberFormat.simpleCurrency();
+  final formatCurrency = NumberFormat.simpleCurrency();
 
   @override
   Widget build(BuildContext context) {

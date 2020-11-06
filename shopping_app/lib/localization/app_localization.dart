@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalization {
-  static final AppLocalization _singleton = new AppLocalization._internal();
+  static final AppLocalization _singleton = AppLocalization._internal();
 
   AppLocalization._internal();
 

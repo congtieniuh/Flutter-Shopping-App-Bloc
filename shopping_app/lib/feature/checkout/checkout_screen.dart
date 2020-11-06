@@ -12,7 +12,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final formatCurrency = new NumberFormat.simpleCurrency();
+  final formatCurrency = NumberFormat.simpleCurrency();
 
   CreditCard resultCreditCard = creditCards[0];
 

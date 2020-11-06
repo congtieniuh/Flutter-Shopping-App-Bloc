@@ -15,7 +15,7 @@ class RegisterScreen extends StatefulWidget {
 RegisterBloc _registerBloc = RegisterBloc();
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void createSnackBar(String message) {
     _scaffoldKey.currentState
-        .showSnackBar(new SnackBar(content: new Text(message)));
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 }
 

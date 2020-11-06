@@ -16,7 +16,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final formatCurrency = new NumberFormat.simpleCurrency();
+  final formatCurrency = NumberFormat.simpleCurrency();
 
   @override
   void initState() {

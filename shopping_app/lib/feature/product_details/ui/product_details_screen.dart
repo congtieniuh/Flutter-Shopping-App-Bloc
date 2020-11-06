@@ -22,7 +22,7 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  final formatCurrency = new NumberFormat.simpleCurrency();
+  final formatCurrency = NumberFormat.simpleCurrency();
   var _isSelectedSize = false;
   var _currentIndexSize = 0;
 
